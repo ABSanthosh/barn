@@ -1,0 +1,6 @@
+
+model User {
+  id        Int      @id @default(sequence())
+  email     String   @unique
+  name      String?
+}
