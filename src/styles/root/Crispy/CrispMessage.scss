@@ -1,52 +1,52 @@
 .CrispMessage {
-  &[data-type='error'] {
-    --crp-message-icon: '\e002';
-    --crp-message-color: var(--crp-message-color-error);
-    --crp-message-border-color: var(--crp-message-border-color-error);
-    --crp-message-background-color: var(--crp-message-background-color-error);
-  }
+	gap: 8px;
+	line-height: 20px;
+	@include box($height: auto);
+	color: var(--crp-message-color);
+	@include make-flex($dir: row, $just: flex-start, $align: flex-start);
 
-  &[data-no-icon] {
-    &::before {
-      display: none;
-    }
-  }
+	&[data-type='error'] {
+		--crp-message-icon: '\e002';
+		--crp-message-color: var(--crp-message-color-error);
+		--crp-message-border-color: var(--crp-message-border-color-error);
+		--crp-message-background-color: var(--crp-message-background-color-error);
+	}
 
-  &[data-type='info'] {
-    --crp-message-icon: '\e88e';
-    --crp-message-color: var(--crp-message-color-info);
-    --crp-message-border-color: var(--crp-message-border-color-info);
-    --crp-message-background-color: var(--crp-message-background-color-info);
-  }
+	&[data-no-icon] {
+		&::before {
+			display: none;
+		}
+	}
 
-  &[data-format='box'] {
-    --crp-message-border-radius: 8px;
-    --crp-message-padding: 8px 16px;
+	&[data-type='info'] {
+		--crp-message-icon: '\e88e';
+		--crp-message-color: var(--crp-message-color-info);
+		--crp-message-border-color: var(--crp-message-border-color-info);
+		--crp-message-background-color: var(--crp-message-background-color-info);
+	}
 
-    border-radius: var(--crp-message-border-radius);
-    border: 1px solid var(--crp-message-border-color);
-    background-color: var(--crp-message-background-color);
-    padding: var(--crp-message-padding);
-  }
+	&[data-format='box'] {
+		--crp-message-border-radius: 8px;
+		--crp-message-padding: 8px 16px;
 
-  gap: 8px;
-  @include box($height: auto);
-  color: var(--crp-message-color);
-  @include make-flex($dir: row, $just: flex-start, $align: flex-start);
-  line-height: 20px;
+		border-radius: var(--crp-message-border-radius);
+		border: 1px solid var(--crp-message-border-color);
+		background-color: var(--crp-message-background-color);
+		padding: var(--crp-message-padding);
+	}
 
-  &::before {
-    content: var(--crp-message-icon);
-    color: var(--crp-message-color);
-    font: normal normal normal 20px/1 'Icons';
-  }
+	&::before {
+		content: var(--crp-message-icon);
+		color: var(--crp-message-color);
+		font: normal normal normal 20px/1 'Icons';
+	}
 }
 
 .CrispMessageList {
-  --crp-message-list-gap: 8px;
+	--crp-message-list-gap: 8px;
 
-  list-style-type: none;
-  @include box($height: auto);
-  gap: var(--crp-message-list-gap);
-  @include make-flex($align: flex-start, $just: flex-start);
+	list-style-type: none;
+	@include box($height: auto);
+	gap: var(--crp-message-list-gap);
+	@include make-flex($align: flex-start, $just: flex-start);
 }
