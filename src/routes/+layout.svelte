@@ -1,9 +1,17 @@
 <script lang="ts">
-	import Header from '$components/Header.svelte';
-	import { theme } from '$lib/Store/ThemeStore';
 	import { onMount } from 'svelte';
+	import type { PageData } from './$types';
+	import { theme } from '$lib/Store/ThemeStore';
+	import Header from '$components/Header.svelte';
+	import { UserStore } from '$lib/Store/UserStore';
+
+	export let data: PageData;
+
+	$: UserStore.set(data.user);
 
 	onMount(() => {
+		// UserStore.set(data.user);
+
 		theme.subscribe((value) => {
 			if (document) {
 				document.documentElement.setAttribute('data-theme', value);

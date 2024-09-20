@@ -1,6 +1,12 @@
-
 model User {
-  id        Int      @id @default(sequence())
-  email     String   @unique
-  name      String?
+  id           String   @id @default(cuid()) // Unique user ID
+  googleId     String   @unique // Google-provided ID
+  email        String   @unique // User's email
+  name         String // name field
+  picture      String? // Optional profile picture
+  accessToken  String // OAuth access token
+  refreshToken String // OAuth refresh token
+  idToken      String? // ID token for verification
+  createdAt    DateTime @default(now()) // Timestamp for when the user was created
+  updatedAt    DateTime @updatedAt // Auto-updated timestamp for when the user was last updated
 }

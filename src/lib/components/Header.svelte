@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { setTheme, theme } from '$lib/Store/ThemeStore';
+	import GoogleButton from './GoogleButton.svelte';
 
 	let themeToggle: HTMLButtonElement;
 
@@ -53,6 +54,7 @@
 			</a>
 		</div>
 		<div class="Header__right">
+			<GoogleButton />
 			<button
 				class="CrispButton"
 				bind:this={themeToggle}
@@ -130,7 +132,9 @@
 		}
 
 		&__right {
+			gap: 10px;
 			@include box(auto, 100%);
+			@include make-flex($dir: row);
 
 			.CrispButton {
 				--crp-button-width: auto;
