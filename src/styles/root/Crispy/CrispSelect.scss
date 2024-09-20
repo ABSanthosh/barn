@@ -42,8 +42,8 @@
 	background-position: var(--crp-select-background-position);
 
 	&:not(&[data-type]) {
-		--crp-select-color: var(--foreground);
-		--crp-select-color-hover: var(--foreground);
+		--crp-select-color: var(--text);
+		--crp-select-color-hover: var(--text);
 		--crp-select-background-color: var(--elevation-1);
 		--crp-select-background-hover: var(--t-crp-background-hover);
 		--crp-select-border: 1px solid var(--t-crp-border);

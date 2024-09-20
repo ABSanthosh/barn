@@ -19,7 +19,7 @@
 	--crp-button-box-shadow: var(--t-crp-box-shadow);
 
 	&:not(&[data-type]) {
-		--crp-button-color-hover: var(--foreground);
+		--crp-button-color-hover: var(--text);
 		--crp-button-background-color-hover: var(--t-crp-background-hover);
 		--crp-button-border-hover: 1.2px solid var(--t-crp-border-hover);
 	}
@@ -72,7 +72,7 @@
 		--crp-button-background-color: transparent;
 		--crp-button-border: 1px solid transparent;
 
-		--crp-button-color-hover: var(--foreground);
+		--crp-button-color-hover: var(--text);
 		--crp-button-background-color-hover: var(--t-crp-background-hover);
 		--crp-button-border-hover: 1.2px solid var(--t-crp-border-hover);
 		--crp-button-box-shadow: transparent;

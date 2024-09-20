@@ -46,7 +46,17 @@
 		<summary>
 			<img referrerpolicy="no-referrer" src={$UserStore.picture || ''} alt="Avatar" />
 		</summary>
-		<ul class="Google__profile--box CrispMenu__content" data-align="right">
+		<ul class="Google__profile--box CrispMenu__content" data-direction="bottom" data-align="center">
+			<div class="Google__profile--content">
+				<span>
+					<strong>
+						Hi, {$UserStore.name}
+					</strong>
+				</span>
+				<span>
+					{$UserStore.email}
+				</span>
+			</div>
 			<form action="/auth?/logout" method="POST" class="w-100">
 				<button type="submit" data-type="danger" class="CrispButton w-100"> Logout </button>
 			</form>
@@ -80,6 +90,29 @@
 			min-width: unset;
 			--crp-menu-width: auto;
 			--crp-menu-height: 100%;
+
+			&--content {
+				@include box();
+				padding: 2px 5px;
+				@include make-flex($align: flex-start);
+
+				& > span {
+					font-size: 14px;
+					font-weight: 500;
+
+					text-overflow: ellipsis;
+					overflow: hidden;
+					white-space: nowrap;
+					width: 100%;
+					color: var(--subText);
+
+					& > strong {
+						font-size: large;
+						color: var(--text);
+					}
+				}
+			}
+
 			& > summary {
 				@include box();
 				padding: 0;
@@ -98,16 +131,14 @@
 			&--box {
 				@include box(200px, auto);
 
-				&[data-align='right'] {
-					right: 0;
-					&::after {
-						right: 11px;
-					}
+				// & > li {
+				// 	width: 100%;
 
-					&::before {
-						right: calc(11px + 0.5px);
-					}
-				}
+				// 	& > a {
+				// 		width: 100%;
+				// 		@include make-flex();
+				// 	}
+				// }
 			}
 
 			// &--item {

@@ -55,8 +55,11 @@
 		</div>
 		<div class="Header__right">
 			<GoogleButton />
+			<a class="CrispButton Header__right--appcta" href="/app" data-icon-after={String.fromCharCode(59620)}>
+				Go To App
+			</a>
 			<button
-				class="CrispButton"
+				class="CrispButton theme"
 				bind:this={themeToggle}
 				on:click={async () => await themeToggleTransition()}
 				aria-label="Toggle theme"
@@ -136,7 +139,15 @@
 			@include box(auto, 100%);
 			@include make-flex($dir: row);
 
-			.CrispButton {
+			&--appcta {
+				@include box(auto, 100%);
+				font-size: 14px;
+				color: var(--text);
+				@include make-flex($dir: row, $just: center, $align: center);
+				text-decoration: none;
+			}
+
+			.CrispButton.theme{
 				--crp-button-width: auto;
 				aspect-ratio: 1;
 				--crp-button-height: 100%;

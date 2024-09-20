@@ -57,10 +57,10 @@
 	}
 
 	&:not(&[data-type]) {
-		--crp-menu-color: var(--foreground);
-		--crp-menu-color-hover: var(--foreground);
+		--crp-menu-color: var(--text);
+		--crp-menu-color-hover: var(--text);
 
-		--crp-menu-background-color: var(--elevation-1);
+		--crp-menu-background-color: var(--background);
 		--crp-menu-background-color-hover: var(--t-crp-background-hover);
 
 		--crp-menu-border: 1px solid var(--t-crp-border);
