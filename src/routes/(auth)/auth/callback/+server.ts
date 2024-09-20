@@ -4,13 +4,12 @@ import { OAuth2Client } from 'google-auth-library';
 import { upsertUser } from '$db/User.db.js';
 
 export async function GET({ url, cookies }) {
-	const code = await url.searchParams.get('code');
+	const code = url.searchParams.get('code');
 
 	try {
 		const client = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI);
 		const response = await client.getToken(code!);
 		client.setCredentials(response.tokens);
-		const user = client.credentials;
 		const payload = (
 			await client.verifyIdToken({
 				idToken: client.credentials.id_token!,
@@ -31,7 +30,7 @@ export async function GET({ url, cookies }) {
 				googleId: payload.sub,
 				idToken: client.credentials.id_token!
 			});
-		else throw new Error('No payload found');
+		else throw redirect(303, '/?error=No%20payload%20found');
 
 		cookies.set('session', payload.sub, {
 			httpOnly: true, // Ensure this cookie cannot be accessed via client-side JavaScript
@@ -41,7 +40,8 @@ export async function GET({ url, cookies }) {
 		});
 	} catch (error) {
 		console.error(error);
+		return redirect(303, '/?error=Failed%20to%20authenticate');
 	}
 
-	return redirect(303, '/');
+	return redirect(303, '/app');
 }
