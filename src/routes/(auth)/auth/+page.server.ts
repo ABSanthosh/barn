@@ -17,7 +17,10 @@ export const actions: Actions = {
 		});
 		throw redirect(302, url);
 	},
-	logout: async () => {
+	logout: async ({ cookies }) => {
+		cookies.delete('session', {
+			path: '/'
+		});
 		throw redirect(303, '/');
 	}
 };

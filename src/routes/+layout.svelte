@@ -10,8 +10,6 @@
 	$: UserStore.set(data.user);
 
 	onMount(() => {
-		// UserStore.set(data.user);
-
 		theme.subscribe((value) => {
 			if (document) {
 				document.documentElement.setAttribute('data-theme', value);
