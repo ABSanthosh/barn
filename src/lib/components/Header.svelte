@@ -92,13 +92,14 @@
 		z-index: 5;
 		position: fixed;
 		@include make-flex();
-		@include box(100%, 37px);
+		@include box(100%, 44px);
 		background: var(--header-bg);
+		backdrop-filter: blur(10px);
 		border-bottom: 1px solid var(--secondary);
 	}
 	.Header {
 		@include box();
-		padding: 5px 15px;
+		padding: 8px 15px;
 		max-width: $maxWidth;
 		@include make-flex($dir: row, $just: space-between);
 
@@ -139,7 +140,7 @@
 				--crp-button-padding-left: 3px;
 				--crp-button-padding-right: 3px;
 				--crp-button-padding-bottom: 3px;
-				--crp-button-border-radius: 5px;
+				// --crp-button-border-radius: 5px;
 			}
 		}
 	}

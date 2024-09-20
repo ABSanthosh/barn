@@ -22,3 +22,4 @@ vite.config.ts.timestamp-*
 
 # cockroachdb
 node1
+cockroach-data
