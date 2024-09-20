@@ -41,6 +41,7 @@
 	"type": "module",
 	"dependencies": {
 		"@prisma/client": "^5.18.0",
-		"google-auth-library": "^9.14.1"
+		"google-auth-library": "^9.14.1",
+		"nanoid": "^5.0.7"
 	}
 }
