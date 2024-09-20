@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import { theme } from '$lib/Store/ThemeStore';
-	import Header from '$components/Header.svelte';
 	import { UserStore } from '$lib/Store/UserStore';
 	import { page } from '$app/stores';
 	import { addToast, ToastStore } from '$lib/Store/ToastStore';
@@ -40,7 +39,6 @@
 	<title>Barn</title>
 </svelte:head>
 
-<Header />
 <slot></slot>
 
 {#if $ToastStore}
