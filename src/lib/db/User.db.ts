@@ -4,10 +4,12 @@ import { type UserProfile } from '../types/User.type';
 
 // upsert user
 export async function upsertUser(user: User) {
+	const { createdAt, updatedAt, ...userWithoutTimestamps } = user;
+
 	return await db.user.upsert({
-		where: { id: user.id },
-		update: user,
-		create: user
+		where: { id: userWithoutTimestamps.id },
+		update: userWithoutTimestamps,
+		create: userWithoutTimestamps
 	});
 }
 
@@ -23,6 +25,7 @@ export async function getUserById(id: string): Promise<UserProfile | null> {
 			email: user.email,
 			id: user.id,
 			picture: user.picture,
-			name: user.name
+			name: user.name,
+			newUser: user.newUser
 		};
 }

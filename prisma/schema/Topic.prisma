@@ -1,0 +1,8 @@
+model Topic {
+  id       String @id @default(cuid())
+  category String
+  title    String
+  xmlUrl   String
+  desc     String @db.String(1000)
+  type     String
+}
