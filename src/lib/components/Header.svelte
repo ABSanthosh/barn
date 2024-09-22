@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { setTheme, theme } from '$lib/Store/ThemeStore';
 	import GoogleButton from './GoogleButton.svelte';
+	import { UserStore } from '$lib/Store/UserStore';
 
 	let themeToggle: HTMLButtonElement;
 
@@ -55,9 +56,16 @@
 		</div>
 		<div class="Header__right">
 			<GoogleButton />
-			<a class="CrispButton Header__right--appcta" href="/app" data-icon-after={String.fromCharCode(59620)}>
-				Go To App
-			</a>
+			{#if $UserStore !== null}
+				<a
+					class="CrispButton Header__right--appcta"
+					href="/app"
+					data-icon-after={String.fromCharCode(59620)}
+				>
+					Go To App
+				</a>
+			{/if}
+
 			<button
 				class="CrispButton theme"
 				bind:this={themeToggle}
@@ -147,7 +155,7 @@
 				text-decoration: none;
 			}
 
-			.CrispButton.theme{
+			.CrispButton.theme {
 				--crp-button-width: auto;
 				aspect-ratio: 1;
 				--crp-button-height: 100%;

@@ -2,7 +2,7 @@
 	import Header from '$components/Header.svelte';
 </script>
 
-<Header />
+<!-- <Header /> -->
 
 <section class="Splash"></section>
 

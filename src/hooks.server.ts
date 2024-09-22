@@ -22,13 +22,20 @@ const authentication: Handle = async ({ event, resolve }) => {
 };
 
 const authorization: Handle = async ({ event, resolve }) => {
-	console.log(event.url.pathname);
 	const googleSub = event.cookies.get('session');
 	const protectedRoutes = ['/app'];
+
+	// console.log(event.locals.user)
 
 	if (protectedRoutes.some((route) => event.url.pathname.startsWith(route))) {
 		if (!googleSub) {
 			throw redirect(303, '/?error=unauthorized');
+		}
+
+		// This is a new user, redirect them to the onboarding page
+		// Prevents redirect loop when user is already on the onboarding page
+		if (event.locals.user?.newUser && !event.url.pathname.startsWith('/app/onboarding')) {
+			throw redirect(303, '/app/onboarding');
 		}
 	}
 

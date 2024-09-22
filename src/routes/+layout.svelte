@@ -7,6 +7,7 @@
 	import { addToast, ToastStore } from '$lib/Store/ToastStore';
 	import { goto } from '$app/navigation';
 	import Toast from '$components/Toast.svelte';
+	import Header from '$components/Header.svelte';
 
 	export let data: PageData;
 
@@ -38,6 +39,8 @@
 
 	<title>Barn</title>
 </svelte:head>
+
+<Header />
 
 <slot></slot>
 

@@ -17,20 +17,24 @@ export async function GET({ url, cookies }) {
 			})
 		).getPayload();
 
-		if (payload)
-			await upsertUser({
+		if (payload) {
+			const dbUser = await upsertUser({
+				newUser: true,
 				id: payload.sub,
-				email: payload.email || '',
-				name: payload.name || '',
-				picture: payload.picture || '',
-				accessToken: client.credentials.access_token!,
-				refreshToken: client.credentials.refresh_token!,
-				createdAt: new Date(),
-				updatedAt: new Date(),
+				updatedAt: null,
+				createdAt: null,
 				googleId: payload.sub,
-				idToken: client.credentials.id_token!
+				name: payload.name || '',
+				email: payload.email || '',
+				picture: payload.picture || '',
+				idToken: client.credentials.id_token!,
+				accessToken: client.credentials.access_token!,
+				refreshToken: client.credentials.refresh_token!
 			});
-		else throw redirect(303, '/?error=No%20payload%20found');
+			console.log(dbUser);
+		} else {
+			throw redirect(303, '/?error=No%20payload%20found');
+		}
 
 		cookies.set('session', payload.sub, {
 			httpOnly: true, // Ensure this cookie cannot be accessed via client-side JavaScript
