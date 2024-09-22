@@ -68,7 +68,7 @@
 	}
 
 	&[data-type='ghost'] {
-		--crp-button-color: #11181c;
+		--crp-button-color: var(--text);
 		--crp-button-background-color: transparent;
 		--crp-button-border: 1px solid transparent;
 
@@ -115,6 +115,17 @@
 		box-shadow: var(--crp-button-box-shadow);
 		background-color: var(--crp-button-background-color);
 	}
+
+	&[data-active='true'] {
+		color: var(--crp-button-color-hover);
+		border: var(--crp-button-border-hover);
+		background-color: var(--crp-button-background-color-hover);
+
+		&::before {
+			color: var(--crp-button-color-hover);
+		}
+	}
+
 	// &:focus:not(:disabled),
 	&:hover:not(:disabled) {
 		color: var(--crp-button-color-hover);
