@@ -1,8 +1,9 @@
-export interface categorizedTopics {
+export type categorizedTopics = {
 	[key: string]: {
 		id: string;
-		title: string;
 		desc: string;
+		title: string;
 		xmlUrl: string;
+		category: string;
 	}[];
-}
+};

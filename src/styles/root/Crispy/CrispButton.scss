@@ -92,6 +92,7 @@
 		// Basic
 		outline: none;
 		cursor: pointer;
+		user-select: none;
 		white-space: nowrap;
 		text-decoration: none;
 		gap: var(--crp-button-gap);

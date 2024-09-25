@@ -31,7 +31,6 @@ export async function GET({ url, cookies }) {
 				accessToken: client.credentials.access_token!,
 				refreshToken: client.credentials.refresh_token!
 			});
-			console.log(dbUser);
 		} else {
 			throw redirect(303, '/?error=No%20payload%20found');
 		}

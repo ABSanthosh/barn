@@ -21,7 +21,7 @@ export const getAllTopics = async (categorize: boolean = false) => {
 				if (!acc[topic.category]) {
 					acc[topic.category] = [];
 				}
-				const { category, type, ...rest } = topic;
+				const { type, ...rest } = topic;
 				acc[topic.category].push(rest);
 				return acc;
 			},
