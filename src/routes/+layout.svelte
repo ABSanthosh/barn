@@ -21,11 +21,6 @@
 
 			goto($page.url.pathname, { replaceState: true });
 		}
-		theme.subscribe((value) => {
-			if (document) {
-				document.documentElement.setAttribute('data-theme', value);
-			}
-		});
 	});
 </script>
 

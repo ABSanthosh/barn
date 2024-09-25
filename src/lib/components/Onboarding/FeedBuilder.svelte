@@ -8,8 +8,6 @@
 
 	$: sideBarOpen = false;
 	$: selectedTopic = allTopics ? Object.keys(allTopics)[0] : '';
-
-	// $: selectedItems = $OnboardStore.selectedTopicItems as unknown as categorizedTopics[0];
 	$: searchTerm = '';
 	$: searchResult =
 		searchTerm.length === 0
@@ -18,14 +16,19 @@
 					keySelector: (key) => key
 				});
 
-	$: console.log($OnboardStore.selectedTopicItems);
+	let hamburger: HTMLInputElement;
 </script>
 
 <div class="FeedBuilder">
 	<div class="FeedBuilder__top">
 		<div class="FeedBuilder__sidebar {sideBarOpen ? 'FeedBuilder__sidebar--open' : ''}">
 			<div class="FeedBuilder__Hamburger">
-				<input type="checkbox" id="NavBarInput" on:change={() => (sideBarOpen = !sideBarOpen)} />
+				<input
+					type="checkbox"
+					id="NavBarInput"
+					bind:this={hamburger}
+					on:change={() => (sideBarOpen = !sideBarOpen)}
+				/>
 				<div class="hamButton">
 					<label class="HamMenu" for="NavBarInput">
 						<span class="span HL1" />
@@ -48,7 +51,13 @@
 					<button
 						class="CrispButton"
 						data-type="ghost"
-						on:click={() => (selectedTopic = category)}
+						on:click={() => {
+							selectedTopic = category;
+							if (sideBarOpen) {
+								sideBarOpen = false;
+								hamburger.checked = false;
+							}
+						}}
 						data-active={selectedTopic === category}
 					>
 						{category}
@@ -118,9 +127,9 @@
 	.FeedBuilder {
 		overflow: hidden;
 		position: relative;
-		border-radius: 30px;
-		@include box(900px, 600px);
-		backdrop-filter: blur(10px);
+		border-radius: 20px;
+		@include box();
+		// backdrop-filter: blur(10px);
 		background-color: var(--modal-bg);
 		border: 1px solid var(--secondary);
 
@@ -175,10 +184,6 @@
 			transform: rotate(-45deg) translate(4px, 0px);
 		}
 
-		@include respondAt(930px) {
-			width: 100%;
-		}
-
 		&__top {
 			display: grid;
 			overflow: hidden;
@@ -212,8 +217,8 @@
 				position: absolute;
 				// transform: translateX(-100%);
 				left: -280px;
-				border-radius: 30px 0 0 30px;
-				background-color: var(--secondary);
+				border-radius: 18px 0 0 18px;
+				background-color: var(--modal-bg);
 				transition: left 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 				&--open {
 					// transform: translateX(0%);
@@ -257,7 +262,7 @@
 			}
 
 			@include respondAt(930px) {
-				padding: 30px 15px 15px;
+				padding: 40px 15px 15px;
 			}
 		}
 
@@ -304,7 +309,7 @@
 				}
 
 				&:has(input:checked) {
-					background-color: var(--secondary);
+					background-color: var(--feedbuilder-active);
 				}
 			}
 		}
