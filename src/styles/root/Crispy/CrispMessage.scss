@@ -2,7 +2,7 @@
 	gap: 8px;
 	line-height: 20px;
 	@include box($height: auto);
-	color: var(--crp-message-color);
+	color: var(--text);
 	@include make-flex($dir: row, $just: flex-start, $align: flex-start);
 
 	&[data-type='error'] {

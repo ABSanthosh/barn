@@ -6,9 +6,8 @@
 	import { page } from '$app/stores';
 	import { addToast, ToastStore } from '$lib/Store/ToastStore';
 	import { goto } from '$app/navigation';
-	import Toast from '$components/Toast.svelte';
-	import Header from '$components/Header.svelte';
-
+	import Toast from '$components/Toast/Toast.svelte';
+	import Header from '$components/Header/Header.svelte';
 	export let data: PageData;
 
 	$: UserStore.set(data.user);
