@@ -1,12 +1,24 @@
 <script lang="ts">
+	import { search } from 'fast-fuzzy';
+	import { addToast } from '$lib/Store/ToastStore';
 	import type { categorizedTopics } from '$types/Topic.type';
+	import { OnboardStore } from '$lib/Store/OnboardStore';
 
 	export const { allTopics } = $$props as { allTopics: categorizedTopics };
 
 	$: sideBarOpen = false;
-	$: selectedTopic = Object.keys(allTopics)[0];
+	$: selectedTopic = allTopics ? Object.keys(allTopics)[0] : '';
 
-	$: selectedItems = [] as categorizedTopics[0];
+	// $: selectedItems = $OnboardStore.selectedTopicItems as unknown as categorizedTopics[0];
+	$: searchTerm = '';
+	$: searchResult =
+		searchTerm.length === 0
+			? Object.keys(allTopics)
+			: search(searchTerm, Object.keys(allTopics), {
+					keySelector: (key) => key
+				});
+
+	$: console.log($OnboardStore.selectedTopicItems);
 </script>
 
 <div class="FeedBuilder">
@@ -22,9 +34,17 @@
 					</label>
 				</div>
 			</div>
-			<input class="CrispInput" type="text" placeholder="Search for topics" />
+			<input
+				class="CrispInput"
+				type="text"
+				placeholder="Search for topics"
+				bind:value={searchTerm}
+			/>
 			<ul>
-				{#each Object.keys(allTopics) as category}
+				{#if searchResult.length === 0}
+					<p class="CrispMessage" data-type="info">No results found</p>
+				{/if}
+				{#each searchResult as category}
 					<button
 						class="CrispButton"
 						data-type="ghost"
@@ -47,15 +67,19 @@
 								class="CrispInput"
 								type="checkbox"
 								value={topic}
-								checked={selectedItems.some((item) => item.id === topic.id)}
+								checked={$OnboardStore.selectedTopicItems.some((item) => item.id === topic.id)}
 								on:change={(e) => {
 									// @ts-ignore
 									if (e.target.checked) {
 										// @ts-ignore
-										selectedItems = [...selectedItems, topic];
+										// selectedItems = [...selectedItems, topic];
+										$OnboardStore.selectedTopicItems = [...$OnboardStore.selectedTopicItems, topic];
 									} else {
 										// @ts-ignore
-										selectedItems = selectedItems.filter((item) => item.id !== topic.id);
+										// selectedItems = selectedItems.filter((item) => item.id !== topic.id);
+										$OnboardStore.selectedTopicItems = $OnboardStore.selectedTopicItems.filter(
+											(item) => item.id !== topic.id
+										);
 									}
 								}}
 							/>
@@ -74,7 +98,17 @@
 		</div>
 	</div>
 	<div class="FeedBuilder__bottom">
-		<button class="CrispButton">
+		<button
+			class="CrispButton"
+			on:click={() => {
+				addToast({
+					dir: 'bottom',
+					type: 'success',
+					message: 'Saved your feed',
+					timeout: 1000
+				});
+			}}
+		>
 			<span>Save</span>
 		</button>
 	</div>
@@ -169,7 +203,7 @@
 			max-height: 100%;
 			@include box(100%, auto);
 			// backdrop-filter: blur(10px);
-			@include make-flex($dir: column);
+			@include make-flex($dir: column, $just: flex-start);
 			border-right: 1px solid var(--separator);
 
 			@include respondAt(930px) {
@@ -193,9 +227,10 @@
 			}
 
 			& > ul {
+				flex: 1;
 				overflow: auto;
-				padding: 0 10px 0 0;
 				list-style: none;
+				padding: 0 10px 0 0;
 				@include box(100%, auto);
 
 				.CrispButton {
@@ -254,6 +289,7 @@
 				padding: 10px 0px 0 10px;
 				color: var(--text);
 				@include box(100%, auto);
+				cursor: pointer;
 				background-color: var(--tertiary);
 
 				display: grid;
