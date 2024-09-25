@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { setTheme, theme } from '$lib/Store/ThemeStore';
-	import GoogleButton from './GoogleButton.svelte';
+	import GoogleButton from '../GoogleButton/GoogleButton.svelte';
 	import { UserStore } from '$lib/Store/UserStore';
 
 	let themeToggle: HTMLButtonElement;
