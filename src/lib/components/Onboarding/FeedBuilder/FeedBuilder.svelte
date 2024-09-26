@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { search } from 'fast-fuzzy';
-	import { addToast } from '$lib/Store/ToastStore';
 	import type { categorizedTopics } from '$types/Topic.type';
 	import {
 		addTopicItems,
@@ -8,7 +7,6 @@
 		OnboardStore,
 		removeTopicItem
 	} from '$lib/Store/OnboardStore';
-	import { fly } from 'svelte/transition';
 
 	export const { allTopics } = $$props as { allTopics: categorizedTopics };
 
@@ -125,19 +123,9 @@
 		</div>
 	</div>
 	<div class="FeedBuilder__bottom">
-		<button
-			class="CrispButton"
-			on:click={() => {
-				addToast({
-					dir: 'bottom',
-					type: 'success',
-					message: 'Saved your feed',
-					timeout: 1000
-				});
-			}}
-		>
+		<a href="/app/onboarding/weather" class="CrispButton">
 			<span>Save</span>
-		</button>
+		</a>
 	</div>
 </div>
 

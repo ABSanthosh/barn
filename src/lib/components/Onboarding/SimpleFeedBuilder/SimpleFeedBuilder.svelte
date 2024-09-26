@@ -5,11 +5,10 @@
 		OnboardStore,
 		removeCategory
 	} from '$lib/Store/OnboardStore';
-	import { addToast } from '$lib/Store/ToastStore';
-	import type { categorizedTopics } from '$types/Topic.type';
-	import { cubicOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
-
+	import { cubicOut } from 'svelte/easing';
+	import type { categorizedTopics } from '$types/Topic.type';
+	
 	export const { allTopics } = $$props as { allTopics: categorizedTopics };
 
 	$: disable = (category: string) =>
@@ -60,19 +59,9 @@
 		</ul>
 	</div>
 	<div class="SimpleFeedBuilder__bottom">
-		<button
-			class="CrispButton"
-			on:click={() => {
-				addToast({
-					dir: 'bottom',
-					type: 'success',
-					message: 'Saved your feed',
-					timeout: 1000
-				});
-			}}
-		>
+		<a href="/app/onboarding/weather" class="CrispButton">
 			<span>Save</span>
-		</button>
+		</a>
 	</div>
 </div>
 
