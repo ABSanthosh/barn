@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import FeedBuilder from '$components/Onboarding/FeedBuilder.svelte';
 	import TabView from '$components/TabView/TabView.svelte';
 	import SimpleFeedBuilder from '$components/Onboarding/SimpleFeedBuilder/SimpleFeedBuilder.svelte';
+	import FeedBuilder from '$components/Onboarding/FeedBuilder/FeedBuilder.svelte';
 
 	export let data: PageData;
 
