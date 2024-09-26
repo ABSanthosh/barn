@@ -67,6 +67,7 @@ export function toggleCity(city: TCity) {
 }
 
 export function clearLocalOnboardStore() {
+	console.log('clearing local onboard store');
 	OnboardStore.set({
 		selectedTopicItems: {},
 		selectedCities: []

@@ -24,7 +24,6 @@
 	).slice(0, 5);
 
 	let cityInput: HTMLInputElement;
-	
 </script>
 
 <div class="WeatherPicker">
@@ -106,10 +105,8 @@
 				);
 
 				return async ({ result, update }) => {
-					if (result.status === 200) {
-						clearLocalOnboardStore();
-					}
 					if (result.type === 'redirect') {
+						clearLocalOnboardStore();
 						goto(result.location);
 					}
 

@@ -7,7 +7,6 @@
 	import { addToast, ToastStore } from '$lib/Store/ToastStore';
 	import { goto } from '$app/navigation';
 	import Toast from '$components/Toast/Toast.svelte';
-	import Header from '$components/Header/Header.svelte';
 	export let data: PageData;
 
 	$: UserStore.set(data.user);
@@ -33,8 +32,6 @@
 
 	<title>Barn</title>
 </svelte:head>
-
-<Header />
 
 <slot></slot>
 

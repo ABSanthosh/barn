@@ -14,3 +14,7 @@ model User {
   cities     City[]
   userTopics UserTopic[]
 }
+
+// delete from "UserTopic" where id <> '';
+// delete from "City" where id <> 0;
+// delete from "User" where id <> '';

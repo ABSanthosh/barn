@@ -4,7 +4,7 @@ import { type UserProfile } from '../types/User.type';
 
 // upsert user
 export async function upsertUser(user: User) {
-	const { createdAt, updatedAt, ...userWithoutTimestamps } = user;
+	const { createdAt, updatedAt, newUser, ...userWithoutTimestamps } = user;
 
 	return await db.user.upsert({
 		where: { id: userWithoutTimestamps.id },
@@ -30,7 +30,7 @@ export async function getUserById(id: string): Promise<UserProfile | null> {
 		};
 }
 
-export async function takeUserVirginity(userId: string){
+export async function takeUserVirginity(userId: string) {
 	return await db.user.update({
 		where: { id: userId },
 		data: { newUser: false }
