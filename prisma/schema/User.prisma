@@ -11,6 +11,8 @@ model User {
   createdAt    DateTime? @default(now()) // Timestamp for when the user was created
   updatedAt    DateTime? @updatedAt // Auto-updated timestamp for when the user was last updated
 
+  cities       City[] // One-to-many relation with the City model
+
   // One-to-many relation with the Preferences model
   // preferences  Prefrence[]
 }

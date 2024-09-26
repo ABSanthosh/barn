@@ -1,0 +1,9 @@
+model City {
+  id      Int    @id @default(sequence())
+  name    String
+  lat     Float
+  lon     Float
+  country String
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+}

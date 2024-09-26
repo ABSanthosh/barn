@@ -26,6 +26,7 @@ const config = {
 			$store: 'src/lib/stores/*',
 			$directive: 'src/lib/directive/*',
 			$images: 'src/lib/images/*',
+			$data: 'src/lib/data/*',
 			$db: 'src/lib/db/*'
 		}
 	}
