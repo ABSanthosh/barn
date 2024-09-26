@@ -20,21 +20,9 @@
 	];
 </script>
 
-<main class="Onboarding">
-	<TabView children={tabs} className="OnboardingTabs" />
-</main>
+<TabView children={tabs} className="OnboardingTabs" />
 
 <style lang="scss">
-	.Onboarding {
-		@include box(100%, 100vh);
-		@include make-flex();
-		padding: 0 20px;
-
-		@include respondAt(565px) {
-			padding: 0 10px;
-		}
-	}
-
 	:global(.OnboardingTabs) {
 		@include box(900px, 600px);
 		padding: 30px 10px 10px 10px;
