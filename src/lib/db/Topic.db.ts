@@ -32,3 +32,12 @@ export const getAllTopics = async (categorize: boolean = false) => {
 
 	return allTopics;
 };
+
+export const addUserTopics = async (userId: string, topicIds: string[]) => {
+	return await db.userTopic.createMany({
+		data: topicIds.map((id) => ({
+			userId,
+			topicId: id
+		}))
+	});
+};

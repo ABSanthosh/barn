@@ -66,6 +66,13 @@ export function toggleCity(city: TCity) {
 	});
 }
 
+export function clearLocalOnboardStore() {
+	OnboardStore.set({
+		selectedTopicItems: {},
+		selectedCities: []
+	});
+}
+
 const storedOnboardStore = browser ? window.localStorage.getItem('OnboardStore') : null;
 export const OnboardStore: Writable<IOnboardStore> = writable(
 	storedOnboardStore

@@ -1,14 +1,15 @@
 import db from '$db';
 import type { TCity } from '$types/City.type';
 
-export async function addUserCity(userId: string, city: TCity) {
+export async function addUserCity(userId: string, city: TCity[]) {
+	console.log('userId', city);
 	return await db.city.createMany({
-		data: {
+		data: city.map((c) => ({
 			userId,
-			name: city.name,
-			country: city.country,
-			lat: city.lat,
-			lon: city.lon
-		}
+			name: c.name,
+			country: c.country,
+			lat: c.lat,
+			lon: c.lon
+		}))
 	});
 }

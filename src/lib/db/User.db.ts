@@ -29,3 +29,10 @@ export async function getUserById(id: string): Promise<UserProfile | null> {
 			newUser: user.newUser
 		};
 }
+
+export async function takeUserVirginity(userId: string){
+	return await db.user.update({
+		where: { id: userId },
+		data: { newUser: false }
+	});
+}

@@ -5,4 +5,14 @@ model Topic {
   xmlUrl   String
   desc     String @db.String(1000)
   type     String
+
+  users UserTopic[]
+}
+
+model UserTopic {
+  id      String @id @default(cuid())
+  userId  String
+  topicId String
+  User    User   @relation(fields: [userId], references: [id])
+  Topic   Topic  @relation(fields: [topicId], references: [id])
 }

@@ -1,26 +1,16 @@
 model User {
-  id           String   @id @default(cuid()) // Unique user ID
-  googleId     String   @unique // Google-provided ID
-  email        String   @unique // User's email
-  name         String // name field
-  picture      String? // Optional profile picture
-  newUser      Boolean  @default(true) // Flag for new users
-  accessToken  String // OAuth access token
-  refreshToken String // OAuth refresh token
-  idToken      String? // ID token for verification
-  createdAt    DateTime? @default(now()) // Timestamp for when the user was created
-  updatedAt    DateTime? @updatedAt // Auto-updated timestamp for when the user was last updated
+  id           String    @id @default(cuid())
+  googleId     String    @unique
+  email        String    @unique
+  name         String
+  picture      String?
+  newUser      Boolean   @default(true)
+  accessToken  String
+  refreshToken String
+  idToken      String?
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @updatedAt
 
-  cities       City[] // One-to-many relation with the City model
-
-  // One-to-many relation with the Preferences model
-  // preferences  Prefrence[]
+  cities     City[]
+  userTopics UserTopic[]
 }
-
-// model Prefrence {
-//   id           String   @id @default(cuid()) 
-//   userId       String
-//   user         User     @relation(fields: [userId], references: [id])
-
-//   // each user can have multiple 
-// }

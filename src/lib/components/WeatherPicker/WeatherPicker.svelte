@@ -2,9 +2,17 @@
 	import { search } from 'fast-fuzzy';
 	import { flip } from 'svelte/animate';
 	import Cities from '$data/cities.json';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import clickOutside from '$directive/clickOutside';
-	import { maxCities, OnboardStore, toggleCity } from '$lib/Store/OnboardStore';
+	import { applyAction, enhance } from '$app/forms';
+	import {
+		clearLocalOnboardStore,
+		maxCities,
+		OnboardStore,
+		toggleCity
+	} from '$lib/Store/OnboardStore';
+	import { UserStore } from '$lib/Store/UserStore';
+	import { goto } from '$app/navigation';
 
 	let searchTerm = '';
 	$: searchResult = search(
@@ -16,8 +24,7 @@
 	).slice(0, 5);
 
 	let cityInput: HTMLInputElement;
-
-	$: console.log($OnboardStore.selectedCities);
+	
 </script>
 
 <div class="WeatherPicker">
@@ -79,9 +86,39 @@
 		<a href="/app/onboarding/feed" class="CrispButton">
 			<span>Previous</span>
 		</a>
-		<a href="/app/onboarding/feed" class="CrispButton">
-			<span>next</span>
-		</a>
+		<form
+			action="/app/onboarding?/preferences"
+			method="post"
+			use:enhance={({ formData }) => {
+				const parseStoreTopics = Object.keys($OnboardStore.selectedTopicItems)
+					.map((topic) => {
+						return $OnboardStore.selectedTopicItems[topic].map((item) => item.id);
+					})
+					.flat();
+
+				formData.append(
+					'onboardStore',
+					JSON.stringify({
+						userId: $UserStore?.id,
+						selectedCities: $OnboardStore.selectedCities,
+						selectedTopicItems: parseStoreTopics
+					})
+				);
+
+				return async ({ result, update }) => {
+					if (result.status === 200) {
+						clearLocalOnboardStore();
+					}
+					if (result.type === 'redirect') {
+						goto(result.location);
+					}
+
+					update();
+				};
+			}}
+		>
+			<button type="submit" class="CrispButton" data-type="success"> Save </button>
+		</form>
 	</div>
 </div>
 
