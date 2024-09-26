@@ -2,12 +2,22 @@
 	import { search } from 'fast-fuzzy';
 	import { addToast } from '$lib/Store/ToastStore';
 	import type { categorizedTopics } from '$types/Topic.type';
-	import { OnboardStore } from '$lib/Store/OnboardStore';
+	import {
+		addTopicItems,
+		maxTopicCategories,
+		OnboardStore,
+		removeTopicItem
+	} from '$lib/Store/OnboardStore';
+	import { fly } from 'svelte/transition';
 
 	export const { allTopics } = $$props as { allTopics: categorizedTopics };
 
 	$: sideBarOpen = false;
-	$: selectedTopic = allTopics ? Object.keys(allTopics)[0] : '';
+	$: selectedTopic = allTopics
+		? Object.keys($OnboardStore.selectedTopicItems).length > 0
+			? Object.keys($OnboardStore.selectedTopicItems)[0]
+			: Object.keys(allTopics)[0]
+		: '';
 	$: searchTerm = '';
 	$: searchResult =
 		searchTerm.length === 0
@@ -17,6 +27,10 @@
 				});
 
 	let hamburger: HTMLInputElement;
+
+	$: disable = (category: string) =>
+		Object.keys($OnboardStore.selectedTopicItems).length >= maxTopicCategories &&
+		!(category in $OnboardStore.selectedTopicItems);
 </script>
 
 <div class="FeedBuilder">
@@ -51,15 +65,22 @@
 					<button
 						class="CrispButton"
 						data-type="ghost"
+						disabled={disable(category)}
 						on:click={() => {
+							if (disable(category)) return;
 							selectedTopic = category;
 							if (sideBarOpen) {
 								sideBarOpen = false;
 								hamburger.checked = false;
 							}
 						}}
-						data-active={selectedTopic === category}
+						data-active={category in $OnboardStore.selectedTopicItems}
 					>
+						{#if $OnboardStore.selectedTopicItems[category]}
+							<em>
+								({$OnboardStore.selectedTopicItems[category]?.length})
+							</em>
+						{/if}
 						{category}
 					</button>
 				{/each}
@@ -71,24 +92,21 @@
 				{#each allTopics[selectedTopic] as topic (topic.id)}
 					<label>
 						<div class="FeedBuilder__content--input">
+							<!-- checked={$OnboardStore.selectedTopicItems.some((item) => item.id === topic.id)} -->
 							<input
 								id={topic.xmlUrl}
 								class="CrispInput"
 								type="checkbox"
 								value={topic}
-								checked={$OnboardStore.selectedTopicItems.some((item) => item.id === topic.id)}
+								checked={$OnboardStore.selectedTopicItems[selectedTopic]
+									?.map((item) => item.id)
+									.includes(topic.id)}
 								on:change={(e) => {
 									// @ts-ignore
 									if (e.target.checked) {
-										// @ts-ignore
-										// selectedItems = [...selectedItems, topic];
-										$OnboardStore.selectedTopicItems = [...$OnboardStore.selectedTopicItems, topic];
+										addTopicItems([topic]);
 									} else {
-										// @ts-ignore
-										// selectedItems = selectedItems.filter((item) => item.id !== topic.id);
-										$OnboardStore.selectedTopicItems = $OnboardStore.selectedTopicItems.filter(
-											(item) => item.id !== topic.id
-										);
+										removeTopicItem(topic.id, selectedTopic);
 									}
 								}}
 							/>
@@ -208,8 +226,8 @@
 			max-height: 100%;
 			@include box(100%, auto);
 			// backdrop-filter: blur(10px);
-			@include make-flex($dir: column, $just: flex-start);
 			border-right: 1px solid var(--separator);
+			@include make-flex($dir: column, $just: flex-start);
 
 			@include respondAt(930px) {
 				overflow: unset;
@@ -239,6 +257,7 @@
 				@include box(100%, auto);
 
 				.CrispButton {
+					margin-top: 5px;
 					--crp-button-width: 100%;
 					--crp-button-height: 34px;
 					justify-content: flex-start;
@@ -300,6 +319,12 @@
 				display: grid;
 				grid-template-columns: 40px 1fr;
 
+				&:last-child {
+					padding-bottom: 10px;
+					.FeedBuilder__content--box {
+						border-bottom: none;
+					}
+				}
 				&:first-child {
 					border-radius: 10px 10px 0 0;
 				}

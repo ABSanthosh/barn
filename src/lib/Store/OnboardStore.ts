@@ -36,18 +36,26 @@ export function removeCategory(category: string) {
 	});
 }
 
-export function removeTopicItem(topicItemId: string) {
+export function removeTopicItem(topicItemId: string, category: string) {
 	// remove topicItem from selectedTopicItems
 	OnboardStore.update((store) => {
-		for (const category in store.selectedTopicItems) {
-			store.selectedTopicItems[category] = store.selectedTopicItems[category].filter(
-				(topicItem) => topicItem.id !== topicItemId
-			);
-			if (store.selectedTopicItems[category].length === 0) {
-				delete store.selectedTopicItems[category];
-			}
+		store.selectedTopicItems[category] = store.selectedTopicItems[category].filter(
+			(topicItem) => topicItem.id !== topicItemId
+		);
+		if (store.selectedTopicItems[category].length === 0) {
+			delete store.selectedTopicItems[category];
 		}
 		return store;
+
+		// for (const category in store.selectedTopicItems) {
+		// 	store.selectedTopicItems[category] = store.selectedTopicItems[category].filter(
+		// 		(topicItem) => topicItem.id !== topicItemId
+		// 	);
+		// 	if (store.selectedTopicItems[category].length === 0) {
+		// 		delete store.selectedTopicItems[category];
+		// 	}
+		// }
+		// return store;
 	});
 }
 

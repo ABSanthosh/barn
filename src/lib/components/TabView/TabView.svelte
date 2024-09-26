@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { SvelteComponent } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	export let children = [] as {
 		label: string;
@@ -8,25 +9,39 @@
 	}[];
 	export let className = '';
 
-	$: activeTab = children[0].label;
+	$: activeIndex = 0;
+	$: activeTab = children[activeIndex].label;
 </script>
 
 <div class="TabView {className}">
 	<div class="Tabs">
-		{#each children as child}
+		{#each children as child, index}
 			<button
 				class="CrispButton"
 				data-active={child.label === activeTab}
-				on:click={() => (activeTab = child.label)}
+				on:click={() => {
+					activeTab = child.label;
+					activeIndex = index;
+				}}
 			>
 				{child.label}
 			</button>
 		{/each}
 	</div>
-	{#each children as child}
-		{#if child.label === activeTab}
-			<svelte:component this={child.component} {...child.props} />
-		{/if}
+	{#each children as child, index (child.label)}
+		{#key child.label}
+			{#if child.label === activeTab}
+				<div
+					in:fly={{
+						x: index > activeIndex ? 50 : -50,
+						duration: 500
+					}}
+					style="height: 100%; width: 100%; max-height: 100%; max-width: 100%;"
+				>
+					<svelte:component this={child.component} {...child.props} />
+				</div>
+			{/if}
+		{/key}
 	{/each}
 </div>
 
@@ -36,7 +51,7 @@
 		border-radius: 30px;
 		background-color: var(--modal-bg-noBlur);
 		border: 1px solid var(--secondary);
-    margin-top: 20px;
+		margin-top: 20px;
 
 		.Tabs {
 			top: -20px;
@@ -52,9 +67,6 @@
 				--crp-button-border-radius: 0;
 
 				&:first-child {
-					&:not([data-active]) {
-						border-right: 0;
-					}
 					border-top-left-radius: 7px;
 					border-bottom-left-radius: 7px;
 				}
