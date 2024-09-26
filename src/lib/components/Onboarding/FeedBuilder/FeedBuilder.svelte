@@ -124,7 +124,7 @@
 	</div>
 	<div class="FeedBuilder__bottom">
 		<a href="/app/onboarding/weather" class="CrispButton">
-			<span>Save</span>
+			<span>Next</span>
 		</a>
 	</div>
 </div>

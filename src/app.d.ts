@@ -13,7 +13,7 @@ declare global {
 	}
 	namespace svelteHTML {
 		interface HTMLAttributes<T> {
-			'on:outclick'?: () => boolean;
+			'on:outclick'?: () => any;
 		}
 	}
 }

@@ -8,7 +8,7 @@
 	import { fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import type { categorizedTopics } from '$types/Topic.type';
-	
+
 	export const { allTopics } = $$props as { allTopics: categorizedTopics };
 
 	$: disable = (category: string) =>
@@ -60,7 +60,7 @@
 	</div>
 	<div class="SimpleFeedBuilder__bottom">
 		<a href="/app/onboarding/weather" class="CrispButton">
-			<span>Save</span>
+			<span>Next</span>
 		</a>
 	</div>
 </div>
@@ -105,7 +105,7 @@
 		}
 
 		&__bottom {
-			padding: 0 15px;
+			// padding: 0 15px;
 			@include make-flex($align: flex-end);
 			border-top: 1px solid var(--separator);
 		}
