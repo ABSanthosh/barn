@@ -18,3 +18,4 @@ model User {
 // delete from "UserTopic" where id <> '';
 // delete from "City" where id <> 0;
 // delete from "User" where id <> '';
+// delete from "Topic" where id <> ''; 

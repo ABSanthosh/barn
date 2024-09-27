@@ -11,7 +11,7 @@ model Topic {
 
 model UserTopic {
   id      String @id @default(cuid())
-  userId  String
+  userId  String  
   topicId String
   User    User   @relation(fields: [userId], references: [id])
   Topic   Topic  @relation(fields: [topicId], references: [id])

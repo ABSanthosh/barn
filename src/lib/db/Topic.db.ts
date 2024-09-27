@@ -41,3 +41,16 @@ export const addUserTopics = async (userId: string, topicIds: string[]) => {
 		}))
 	});
 };
+
+export const getAllUserTopics = async (userId: string) => {
+	return (
+		await db.userTopic.findMany({
+			where: {
+				userId
+			},
+			select: {
+				Topic: true
+			}
+		})
+	).map((userTopic) => userTopic.Topic);
+};
