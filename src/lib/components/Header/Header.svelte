@@ -126,7 +126,7 @@
 
 				text-decoration: none;
 				color: var(--text);
-				font-family: 'Fraunces', serif;
+				font-family: "Ubuntu", sans-serif;
 
 				h3 {
 					height: 100%;

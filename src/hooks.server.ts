@@ -34,8 +34,8 @@ const authorization: Handle = async ({ event, resolve }) => {
 		// Prevents redirect loop when user is already on the onboarding page
 		if (event.locals.user?.newUser && !event.url.pathname.startsWith('/app/onboarding')) {
 			throw redirect(303, '/app/onboarding/feed');
-		} else if (!event.locals.user?.newUser && !event.url.pathname.startsWith('/app/home')) {
-			throw redirect(303, '/app/home');
+		} else if (!event.locals.user?.newUser && !event.url.pathname.startsWith('/app')) {
+			throw redirect(303, '/app');
 		}
 	}
 
