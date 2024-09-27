@@ -26,7 +26,7 @@ export const actions: Actions = {
 		};
 
 		if (result.city && result.topics && result.userVirginity) {
-			throw redirect(302, '/app/home');
+			throw redirect(302, '/app');
 		}
 	}
 };
