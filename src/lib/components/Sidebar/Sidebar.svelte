@@ -149,7 +149,7 @@
 		@include box(56px);
 		overflow-x: hidden;
 		@include make-flex();
-		background-color: var(--modal-bg);
+		background-color: var(--modal-bg-noBlur);
 		border-right: 2px solid var(--border);
 		// padding: 20px 8px 10px 10px;
 		padding: 8px;

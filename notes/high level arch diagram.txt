@@ -1,0 +1,7 @@
+graph TD
+    A[Client Browser] -->|HTTP/HTTPS| B[Svelte Frontend]
+    B -->|API Calls| C[Sveltekit backend]
+    C -->|OAuth2| D[Google Authentication]
+    C -->|CRUD Operations| E[Database]
+    C -->|RSS Fetching| F[External News Sources]
+    C -->|Weather API| G[Weather Service]

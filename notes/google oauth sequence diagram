@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant User
+    participant OAuth2Client
+    participant Google
+    participant Server
+
+    User->>+OAuth2Client: Clicks "Sign in with Google"
+    OAuth2Client->>+User: Generates auth URL and redirects
+    User->>+Google: Redirected to Google auth page
+    Google->>+User: User authenticates
+    User->>+Google: Authorizes access
+    Google->>+Server: Redirects to /auth/callback with code
+    Server->>Server: Reads "code" parameter
+    Server->>+Google: Calls getToken
+    Google-->>-Server: Returns token
+    Server->>+Google: Calls verifyIdToken
+    Google-->>-Server: Returns user details
+    Server->>Server: Upserts user in user table
+    Server->>Server: Creates session cookie with user ID
+    User->>+Server: Requests protected route
+    Server->>Server: Checks session cookie
+    alt User valid
+        Server->>User: Processes request
+    else User invalid
+        Server->>User: Redirects to sign in
+    end

@@ -14,7 +14,7 @@
 		"format": "prettier --write .",
 		"sql": "docker exec -it roach-single ./cockroach sql --url='postgresql://root@localhost:26257/defaultdb?sslmode=disable'",
 		"test:integration": "playwright test",
-		"sql:start": "docker start db771d0c9c519acb9f345ec6b24566fc8c98d1c75b16ca5fc81d8c65b6f0f204",
+		"sql:start": "docker start roach-single",
 		"test:unit": "vitest"
 	},
 	"prisma": {

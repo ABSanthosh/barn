@@ -54,3 +54,14 @@ export const getAllUserTopics = async (userId: string) => {
 		})
 	).map((userTopic) => userTopic.Topic);
 };
+
+export const removeUserTopics = async (userId: string, topicIds: string[]) => {
+	return await db.userTopic.deleteMany({
+		where: {
+			userId,
+			topicId: {
+				in: topicIds
+			}
+		}
+	});
+};
