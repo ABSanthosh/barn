@@ -55,6 +55,26 @@ export const getAllUserTopics = async (userId: string) => {
 	).map((userTopic) => userTopic.Topic);
 };
 
+export const getUniqueUserTopics = async (userId: string) => {
+	return (
+		await db.userTopic.findMany({
+			where: {
+				userId
+			},
+			select: {
+			Topic: {
+				select: {
+					xmlUrl: true,
+					category: true
+				}
+			}	
+			}
+		})
+	).map((userTopic) => {
+		return userTopic.Topic;
+	});
+}
+
 export const removeUserTopics = async (userId: string, topicIds: string[]) => {
 	return await db.userTopic.deleteMany({
 		where: {

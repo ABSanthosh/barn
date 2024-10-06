@@ -7,3 +7,14 @@ export type categorizedTopics = {
 		category: string;
 	}[];
 };
+
+export type GithubTopic = {
+	title: string;
+	link: string;
+	description: string;
+	author: string;
+	published: string;
+	image: string;
+	source: string;
+	categories: null | string[];
+};

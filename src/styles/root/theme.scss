@@ -18,6 +18,9 @@
 	--modal-bg-noBlur: light-dark(#f4f6d5, #1a1a1a);
 	--separator: light-dark(#c7caa3, #383b11);
 
+	--ytEmbedBlur: light-dark(hsla(64, 65%, 90%, 0.387), hsla(0, 0%, 10%, 0.521));
+	--ytEmbedBlurHover: light-dark(hsla(64, 65%, 90%, 0.387), hsla(0, 0%, 10%, 0.521));
+
 	/* Crisp theme */
 	--t-crp-disabled-color: light-dark(#b8b8b8, #4d4d4d);
 	--t-crp-background-hover: light-dark(#f2f4cb, #383b11);

@@ -5,6 +5,7 @@
 
 	import Logo from '$images/logo.webp';
 	import { page } from '$app/stores';
+	import { setTheme, theme } from '$lib/Store/ThemeStore';
 
 	$: navState = false;
 	$: userProfileMenu = false;
@@ -24,7 +25,47 @@
 		};
 	};
 
-	$: console.log($page.url.pathname);
+	let themeToggle: HTMLButtonElement;
+	const themeToggleTransition = async () => {
+		if (
+			!themeToggle ||
+			!document.startViewTransition ||
+			window.matchMedia('(prefers-reduced-motion: reduce)').matches
+		) {
+			setTheme($theme === 'dark' ? 'light' : 'dark');
+			return;
+		}
+
+		document
+			.startViewTransition(async () => {
+				setTheme($theme === 'dark' ? 'light' : 'dark');
+			})
+			.ready.then(() => {
+				// https://akashhamirwasia.com/blog/full-page-theme-toggle-animation-with-view-transitions-api/#what-is-the-grow-animation
+				const { top, left, width, height } = themeToggle.getBoundingClientRect();
+				const x = left + width / 2;
+				const y = top + height / 2;
+				const right = window.innerWidth - left;
+				const bottom = window.innerHeight - top;
+				const maxRadius = Math.hypot(Math.max(left, right), Math.max(top, bottom));
+				const isDark = $theme !== 'dark';
+				const clipPath = [
+					`circle(0px at ${x}px ${y}px)`,
+					`circle(${maxRadius}px at ${x}px ${y}px)`
+				];
+
+				document.documentElement.animate(
+					{
+						clipPath: isDark ? clipPath.reverse() : clipPath
+					},
+					{
+						duration: 500,
+						easing: 'ease-in-out',
+						pseudoElement: isDark ? '::view-transition-old(root)' : '::view-transition-new(root)'
+					}
+				);
+			});
+	};
 </script>
 
 <nav
@@ -136,6 +177,25 @@
 
 		<button
 			class={`CrispButton Sidebar__toggle${navState || userProfileMenu ? '--active' : '--item'}`}
+			bind:this={themeToggle}
+			on:click={async () => await themeToggleTransition()}
+			aria-label="Toggle theme"
+			title="Toggle theme"
+		>
+			<svg viewBox="0 0 20 20" width="16px" height="16px" fill="currentColor">
+				<!-- render both but change display css in theme.css to avoid flicker -->
+				<path id="moon" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+				<path
+					id="sun"
+					fill-rule="evenodd"
+					d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+					clip-rule="evenodd"
+				/>
+			</svg>
+		</button>
+
+		<button
+			class={`CrispButton Sidebar__toggle${navState || userProfileMenu ? '--active' : '--item'}`}
 			on:click={() => closeSideBar(true)}
 			data-icon={String.fromCharCode(58828)}
 		/>
@@ -143,13 +203,20 @@
 </nav>
 
 <style lang="scss">
+	:root {
+		&::view-transition-old(root),
+		&::view-transition-new(root) {
+			animation: none;
+			mix-blend-mode: normal;
+		}
+	}
 	.Sidebar {
 		gap: 15px;
 		max-height: 100vh;
 		@include box(56px);
 		overflow-x: hidden;
 		@include make-flex();
-		background-color: var(--modal-bg-noBlur);
+		background-color: var(--header-bg);
 		border-right: 2px solid var(--border);
 		// padding: 20px 8px 10px 10px;
 		padding: 8px;

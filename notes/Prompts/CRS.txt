@@ -1,0 +1,50 @@
+how fast is a tf idf based content recommendation system 
+
+suppose I want to make a app that parses through 100 article's description and title and generate a list of articles recommended for the user based on how the user have interacted with articles before, can I do that with tf idf based content recommendation system 
+
+I want to use github actions to do most of the compute since I'll be fetching for new articles only once per day so I want to preprocess, vectorize, and do all other things in the github actions cronjob and save the data to the repo. When the user opens their feed, I want to download the categories they are interested in and use the user interaction metrics I have saved in db to filter articles. If you have a better way that does not involve hosting a separate backend and make the requests faster, please suggest
+
+
+Using GitHub Actions to preprocess and vectorize articles on a daily schedule is a smart approach, especially if you want to avoid the complexity of maintaining a separate backend. Here’s a refined plan based on your description, focusing on efficiency and simplicity:
+
+### 1. GitHub Actions for Daily Processing
+
+- **Setup a Cron Job**: Create a GitHub Actions workflow that runs daily. This can be scheduled using the `schedule` event in the workflow YAML.
+
+- **Fetch New Articles**: In the workflow, use a script to fetch new articles from your source (API, web scraping, etc.).
+
+- **Preprocess and Vectorize**:
+  - Use libraries like Scikit-learn to compute the TF-IDF vectors for the articles.
+  - Save the processed data (vectors and article metadata) to a file (e.g., JSON or CSV) within your GitHub repository.
+
+- **Commit Changes**: At the end of the workflow, commit and push the updated files back to the repo.
+
+### 2. User Interaction and Filtering
+
+- **User Data Storage**: Store user interaction metrics in a simple file format in the repository (e.g., JSON or CSV). This can be updated periodically or when the user interacts with articles.
+
+- **Fetch Categories**: When the user opens their feed, fetch their interests (categories) from the relevant file in the repo.
+
+### 3. Generate Recommendations
+
+- **Download Files Locally**: When the user accesses the app, pull the latest article and user interaction files from the GitHub repository. This can be done using the GitHub API or directly downloading the raw files.
+
+- **Filter and Recommend**:
+  - Load the articles and user interactions into your app.
+  - Filter articles based on user interests and compute recommendations using the precomputed TF-IDF vectors.
+
+### 4. Performance Considerations
+
+- **Caching**: Consider caching the downloaded data locally (in the app) to speed up access and reduce the frequency of API calls to GitHub.
+
+- **Batch Processing**: If multiple users are using the app simultaneously, ensure you optimize how often you fetch and process user-specific data.
+
+### 5. Potential Alternatives
+
+- **GitHub Pages**: If your data size is small, consider hosting a simple static site with GitHub Pages. You can generate the HTML pages with recommended articles and serve them directly.
+
+- **Firebase or Airtable**: If you need more dynamic interaction without a full backend, consider using Firebase or Airtable for storing user data and interaction metrics. These services can provide quick access without needing a separate server.
+
+### Summary
+
+This approach leverages GitHub Actions for scheduled processing and keeps your architecture simple by storing everything in the repository. It eliminates the need for a separate backend while allowing for efficient data fetching and recommendation generation. Just ensure that you monitor the repo size and the limits of GitHub Actions, especially if the number of articles or user interactions grows significantly.

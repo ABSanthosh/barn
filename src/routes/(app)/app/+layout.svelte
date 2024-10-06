@@ -14,7 +14,8 @@
 		display: grid;
 		@include box(100vw, 100vh);
 		grid-template-columns: min-content 1fr;
-		grid-template-areas: 'sidebar content';
+		scrollbar-gutter: stable;
+		scroll-behavior: smooth;
 
 		@include respondAt(845px) {
 			grid-template-columns: 1fr;
@@ -23,6 +24,15 @@
 	}
 
 	.Home {
-		flex: 1;
+		@include box();
+		overflow: auto;
+		max-height: 100%;
+
+		// immediate child of Home
+		& > :global(*) {
+			max-width: 800px;
+			// $maxWidth
+			margin: 0 auto;
+		}
 	}
 </style>

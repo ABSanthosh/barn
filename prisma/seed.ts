@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
-import countries from '/home/santhosh/Desktop/Projects/TypeScript/2024/9_Barn/Data/countries.json';
+// import countries from '/home/santhosh/Desktop/Projects/TypeScript/2024/9_Barn/Data/countries.json';
 import recommended from '/home/santhosh/Desktop/Projects/TypeScript/2024/9_Barn/Data/recommended.json';
 
 const prisma = new PrismaClient();
@@ -10,10 +10,6 @@ async function ImportCSV() {
 		prisma.topic.createMany({
 			data: recommended
 		}),
-
-		prisma.topic.createMany({
-			data: countries
-		})
 	]);
 }
 
