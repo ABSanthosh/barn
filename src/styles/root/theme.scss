@@ -27,10 +27,14 @@
 	--t-crp-disabled-background-color: light-dark(#e7e9c7, #4d4d4d);
 
 	--t-crp-link-primary: light-dark(#aeb800, #f6ff47);
+	--t-crp-link-primary-visited: light-dark(#989f12, #a9af2a);
 	--t-crp-border: var(--secondary);
 	--t-crp-light-border: light-dark(#f6ff47, #383b11);
 	--t-crp-border-hover: light-dark(#c3c59b, #383b11);
 	--t-crp-disabled-border: light-dark(#beb7b7, #4d4d4d);
+
+	// Article
+	--link-foreground: light-dark(#37352f, #f6ff47);
 
 	&[data-theme='light'] {
 		color-scheme: light;

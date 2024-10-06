@@ -54,7 +54,7 @@
 
 			{#if itemType === 'youtube'}
 				<li class="FeedItem" data-type={itemType}>
-					<a class="FeedItem__box" href={item.link}>
+					<a class="FeedItem__box" href={`/app/article/${encodeURIComponent(item.link)}`}>
 						<h2>
 							{item.title}
 						</h2>
@@ -66,7 +66,7 @@
 				</li>
 			{:else if itemType === 'audio'}
 				<li class="FeedItem" data-type={itemType}>
-					<a class="FeedItem__box" href={item.link}>
+					<a class="FeedItem__box" href={`/app/article/${encodeURIComponent(item.link)}`}>
 						<h2>
 							{item.title}
 						</h2>
@@ -81,7 +81,7 @@
 				</li>
 			{:else if itemType === 'video'}
 				<li class="FeedItem" data-type={itemType}>
-					<a class="FeedItem__box" href={item.link}>
+					<a class="FeedItem__box" href={`/app/article/${encodeURIComponent(item.link)}`}>
 						<h2>
 							{item.title}
 						</h2>
@@ -97,7 +97,7 @@
 				</li>
 			{:else if itemType === 'image'}
 				<li class="FeedItem" data-type={itemType}>
-					<a class="FeedItem__box" href={item.link}>
+					<a class="FeedItem__box" href={`/app/article/${encodeURIComponent(item.link)}`}>
 						<h2>
 							{item.title}
 						</h2>
@@ -194,10 +194,10 @@
 				@include box(100%, 175px);
 			}
 
-      @include respondAt(685px){
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 175px;
-      }
+			@include respondAt(685px) {
+				grid-template-columns: 1fr;
+				grid-template-rows: 1fr 175px;
+			}
 		}
 
 		&[data-type='audio'] {

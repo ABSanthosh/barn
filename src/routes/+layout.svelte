@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
 	import { theme } from '$lib/Store/ThemeStore';
 	import { UserStore } from '$lib/Store/UserStore';
-	import { page } from '$app/stores';
-	import { addToast, ToastStore } from '$lib/Store/ToastStore';
-	import { goto } from '$app/navigation';
 	import Toast from '$components/Toast/Toast.svelte';
+	import { addToast, ToastStore } from '$lib/Store/ToastStore';
 	export let data: PageData;
 
 	$: UserStore.set(data.user);

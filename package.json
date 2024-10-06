@@ -28,6 +28,7 @@
 		"@testing-library/jest-dom": "^6.5.0",
 		"@testing-library/svelte": "^5.2.1",
 		"@types/eslint": "^9.6.0",
+		"@types/jsdom": "^21.1.7",
 		"@types/node": "^22.5.5",
 		"autoprefixer": "^10.4.20",
 		"eslint": "^9.0.0",
@@ -49,6 +50,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@mozilla/readability": "^0.5.0",
 		"@prisma/client": "^5.18.0",
 		"fast-fuzzy": "^1.12.0",
 		"google-auth-library": "^9.14.1",
