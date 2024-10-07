@@ -1,12 +1,15 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
-	$: console.log(data.content);
+	onMount(() => {
+		document.getElementById('Article')?.scrollIntoView();
+	});
 </script>
 
-<main class="Article">
+<main class="Article" id="Article">
 	<a href="/app" data-icon="arrow_back" class="CrispButton"> Back </a>
 
 	<h1 class="Article__title">{data.content?.title}</h1>
@@ -38,6 +41,8 @@
 	</div>
 
 	{@html data.content?.content}
+
+	<a href="/app" data-icon="arrow_back" class="CrispButton"> Back </a>
 </main>
 
 <style lang="scss" global>
@@ -132,7 +137,7 @@
 
 			* {
 				max-width: 100%;
-				height: auto;
+				// height: auto;
 			}
 
 			p,

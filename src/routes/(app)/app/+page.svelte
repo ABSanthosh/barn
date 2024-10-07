@@ -41,6 +41,35 @@
 			return 'empty';
 		}
 	};
+
+	$: activeTab = 'All';
+
+	$: content = () => {
+		if (activeTab === 'All') {
+			return data.userContent;
+		} else {
+			// if Articles, return dataType === 'image'
+			// if Podcasts, return dataType === 'audio'
+			// if Videos, return dataType === 'video'
+			return data.userContent.filter((item) => {
+				if (activeTab === 'Articles') {
+					return dataType(item) === 'image';
+				} else if (activeTab === 'Podcasts') {
+					return dataType(item) === 'audio';
+				} else if (activeTab === 'Videos') {
+					return dataType(item) === 'video';
+				} else if (activeTab === 'Youtube') {
+					return dataType(item) === 'youtube';
+				}
+			});
+		}
+	};
+
+	const getSource = (source: string) => {
+		// remove https:// and www. from the source
+		// split the source by / and return the first element
+		return source.replace('https://', '').replace('www.', '').split('/')[0];
+	};
 </script>
 
 <main class="Feed">
@@ -48,67 +77,61 @@
 		<h1>{greet.greet}</h1>
 		<p>{greet.funny}</p>
 	</div>
+	<div class="Tabs">
+		{#each ['All', 'Articles', 'Podcasts', 'Videos', 'Youtube'] as child, index}
+			<button
+				class="CrispButton"
+				data-active={child === activeTab}
+				on:click={() => {
+					activeTab = child;
+				}}
+			>
+				{child}
+			</button>
+		{/each}
+	</div>
 	<ul class="Feed__content">
-		{#each data.userContent as item}
+		{#each content() as item}
 			{@const itemType = dataType(item)}
 
-			{#if itemType === 'youtube'}
-				<li class="FeedItem" data-type={itemType}>
+			<li class="FeedItem">
+				<div class="FeedItem__top" data-type={itemType}>
 					<a class="FeedItem__box" href={`/app/article/${encodeURIComponent(item.link)}`}>
-						<h2>
-							{item.title}
-						</h2>
-						<p>
-							{item.description}
-						</p>
+						<span>
+							{getSource(item.link)}
+						</span>
+						<h2>{item.title}</h2>
+						<p>{item.description}</p>
 					</a>
-					<YtEmbed bind:url={item.link} />
-				</li>
-			{:else if itemType === 'audio'}
-				<li class="FeedItem" data-type={itemType}>
-					<a class="FeedItem__box" href={`/app/article/${encodeURIComponent(item.link)}`}>
-						<h2>
-							{item.title}
-						</h2>
-						<p>
-							{item.description}
-						</p>
-					</a>
-					<audio controls>
-						<source src={item.image} type="audio/mpeg" />
-						Your browser does not support the audio element.
-					</audio>
-				</li>
-			{:else if itemType === 'video'}
-				<li class="FeedItem" data-type={itemType}>
-					<a class="FeedItem__box" href={`/app/article/${encodeURIComponent(item.link)}`}>
-						<h2>
-							{item.title}
-						</h2>
-						<p>
-							{item.description}
-						</p>
-					</a>
-					<video autoplay>
-						<source src={item.image} type="video/mp4" />
-						<track kind="captions" />
-						Your browser does not support the video element.
-					</video>
-				</li>
-			{:else if itemType === 'image'}
-				<li class="FeedItem" data-type={itemType}>
-					<a class="FeedItem__box" href={`/app/article/${encodeURIComponent(item.link)}`}>
-						<h2>
-							{item.title}
-						</h2>
-						<p>
-							{item.description}
-						</p>
-					</a>
-					<img src={item.image} alt={item.title} />
-				</li>
-			{/if}
-
+					{#if itemType === 'youtube'}
+						<YtEmbed bind:url={item.link} />
+					{:else if itemType === 'audio'}
+						<audio controls>
+							<source src={item.image} type="audio/mpeg" />
+							Your browser does not support the audio element.
+						</audio>
+					{:else if itemType === 'video'}
+						<video autoplay>
+							<source src={item.image} type="video/mp4" />
+							<track kind="captions" />
+							Your browser does not support the video element.
+						</video>
+					{:else if itemType === 'image'}
+						<img src={item.image} alt={item.title} />
+					{/if}
+				</div>
+				<div class="FeedItem__bottom">
+					<span class="FeedItem__meta" data-icon="edit_calendar">
+						{new Date(item.published).toLocaleDateString('en-US', {
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric',
+							hour: '2-digit',
+							minute: '2-digit'
+						})}
+					</span>
+				</div>
+			</li>
 			<hr />
 		{/each}
 	</ul>
@@ -116,12 +139,33 @@
 
 <style lang="scss">
 	.Feed {
-		gap: 20px;
-		padding: 20px;
-		@include make-flex($align: flex-start);
+		.Tabs {
+			@include box(100%, auto);
+			@include make-flex($dir: row);
 
+			.CrispButton {
+				--crp-button-height: 40px;
+				--crp-button-width: 100px;
+				--crp-button-border-radius: 0;
+
+				&:first-child {
+					border-top-left-radius: 7px;
+					border-bottom-left-radius: 7px;
+				}
+
+				&:last-child {
+					border-top-right-radius: 7px;
+					border-bottom-right-radius: 7px;
+				}
+			}
+		}
+		& {
+			gap: 20px;
+			padding: 20px;
+			@include make-flex($align: flex-start);
+		}
 		&__greet {
-			margin-bottom: 160px;
+			margin-bottom: 60px;
 			@include make-flex($align: flex-start);
 
 			h1 {
@@ -152,14 +196,20 @@
 		}
 	}
 	.FeedItem {
-		gap: 20px;
-		padding: 30px 0;
+		gap: 10px;
+		padding: 30px 0 15px 0;
 		@include box(100%, auto);
+		@include make-flex();
 
 		&__box {
 			flex: 1;
 			color: var(--text);
 			text-decoration: none;
+
+			span {
+				font-size: 14px;
+				color: var(--subText);
+			}
 
 			h2 {
 				margin: 0;
@@ -180,42 +230,57 @@
 				-webkit-box-orient: vertical;
 			}
 		}
-
-		&[data-type='youtube'],
-		&[data-type='image'] {
-			display: grid;
-			grid-template-columns: 1fr 275px;
-			img {
-				object-fit: cover;
-				border-radius: 15px;
-				@include box(100%, 175px);
-			}
-			:global(.YtEmbed) {
-				@include box(100%, 175px);
-			}
-
-			@include respondAt(685px) {
-				grid-template-columns: 1fr;
-				grid-template-rows: 1fr 175px;
-			}
-		}
-
-		&[data-type='audio'] {
-			display: grid;
-			grid-template-rows: 1fr 50px;
-			audio {
-				@include box();
-			}
-		}
-
-		&[data-type='video'] {
+		&__top {
 			gap: 20px;
-			display: grid;
-			grid-template-rows: 1fr min-content;
-			video {
-				@include box();
-				border-radius: 15px;
+			@include box(100%, auto);
+			&[data-type='youtube'],
+			&[data-type='image'] {
+				display: grid;
+				grid-template-columns: 1fr 275px;
+				img {
+					object-fit: cover;
+					border-radius: 15px;
+					@include box(100%, 175px);
+				}
+				:global(.YtEmbed) {
+					@include box(100%, 175px);
+				}
+
+				@include respondAt(685px) {
+					grid-template-columns: 1fr;
+					grid-template-rows: 1fr 175px;
+				}
 			}
+
+			&[data-type='audio'] {
+				display: grid;
+				grid-template-rows: 1fr 50px;
+				audio {
+					@include box();
+				}
+			}
+
+			&[data-type='video'] {
+				gap: 20px;
+				display: grid;
+				grid-template-rows: 1fr min-content;
+				video {
+					@include box();
+					border-radius: 15px;
+				}
+			}
+		}
+
+		&__bottom {
+			@include make-flex($align: flex-end);
+			@include box(100%, auto);
+		}
+
+		&__meta {
+			gap: 10px;
+			text-decoration: none;
+			color: var(--subText);
+			@include make-flex($dir: row);
 		}
 	}
 </style>
