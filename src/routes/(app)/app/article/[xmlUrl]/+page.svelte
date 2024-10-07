@@ -63,7 +63,11 @@
 	>
 		<summary>Summarize with AI</summary>
 		<p>
-			{summary}
+			{#if summary === ''}
+				Loading...
+			{:else}
+				{summary}
+			{/if}
 		</p>
 	</details>
 
@@ -81,6 +85,7 @@
 				linear-gradient(canvas, canvas),
 				linear-gradient(120deg, hsl(278, 44%, 73%), hsl(35, 81%, 73%)) border-box;
 
+			margin: 20px 0;
 			border: 4px solid transparent;
 			background-clip: padding-box, border-box;
 			border-radius: 15px;
