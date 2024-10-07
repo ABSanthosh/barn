@@ -7,6 +7,8 @@
 	onMount(() => {
 		document.getElementById('Article')?.scrollIntoView();
 	});
+
+	$: summary = '';
 </script>
 
 <main class="Article" id="Article">
@@ -40,6 +42,31 @@
 		</a>
 	</div>
 
+	<details
+		class="Article__details"
+		on:toggle={(e) => {
+			// @ts-ignore
+			if (e.target.open && summary === '') {
+				fetch(`/summarize`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						content: data.content?.textContent
+					})
+				})
+					.then((res) => res.json())
+					.then((res) => (summary = res));
+			}
+		}}
+	>
+		<summary>Summarize with AI</summary>
+		<p>
+			{summary}
+		</p>
+	</details>
+
 	{@html data.content?.content}
 
 	<a href="/app" data-icon="arrow_back" class="CrispButton"> Back </a>
@@ -48,6 +75,39 @@
 <style lang="scss" global>
 	.Article {
 		padding: 60px 10px;
+
+		&__details {
+			background:
+				linear-gradient(canvas, canvas),
+				linear-gradient(120deg, hsl(278, 44%, 73%), hsl(35, 81%, 73%)) border-box;
+
+			border: 4px solid transparent;
+			background-clip: padding-box, border-box;
+			border-radius: 15px;
+
+			& > p {
+				padding: 20px;
+				font-size: 1.2em;
+				line-height: 1.4em;
+			}
+
+			& > summary {
+				gap: 10px;
+				@include make-flex($dir: row);
+				padding: 8px 20px;
+				font-size: 1.5em;
+				cursor: pointer;
+
+				&::before {
+					background-image: url(/src/lib/images/AI.svg);
+					background-size: contain;
+					background-repeat: no-repeat;
+					content: '';
+					@include box(30px, 30px);
+					@include make-flex();
+				}
+			}
+		}
 
 		& > a {
 			margin-bottom: 30px;
