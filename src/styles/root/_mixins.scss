@@ -4,6 +4,12 @@
   }
 }
 
+@mixin respondAtOpp($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
 @mixin respondAtVertical($breakpoint) {
   @media (max-height: $breakpoint) {
     @content;

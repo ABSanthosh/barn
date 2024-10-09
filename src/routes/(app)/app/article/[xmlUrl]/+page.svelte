@@ -25,9 +25,11 @@
 		<span data-icon="edit_calendar">
 			{data.content?.publishedTime}
 		</span>
-		<span data-icon="history_edu">
-			by {data.content?.byline}
-		</span>
+		{#if data.content?.byline}
+			<span data-icon="history_edu">
+				by {data.content?.byline}
+			</span>
+		{/if}
 		<span data-icon="timer">
 			{data.content?.estimatedReadingTime}
 		</span>

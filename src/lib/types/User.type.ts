@@ -5,3 +5,7 @@ export interface UserProfile {
 	picture: string | null;
 	newUser: boolean;
 }
+
+export type UserSettings = {
+	
+}

@@ -1,6 +1,13 @@
 <script>
+	import Modal from '$components/Modal.svelte';
+	import Settings from '$components/Settings/Settings.svelte';
 	import Sidebar from '$components/Sidebar/Sidebar.svelte';
+	import { toggleSettings, SettingStore } from '$lib/Store/SettingStore';
 </script>
+
+<Modal toggleModal={toggleSettings} showModal={$SettingStore.isSettingsOpen}>
+	<Settings />
+</Modal>
 
 <main class="HomeContainer">
 	<Sidebar />
@@ -20,6 +27,11 @@
 		@include respondAt(845px) {
 			grid-template-columns: 1fr;
 			padding-left: 56px;
+		}
+
+		@include respondAt(650px) {
+			padding-left: 0;
+			padding-top: 30px;
 		}
 	}
 

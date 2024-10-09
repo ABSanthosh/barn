@@ -13,7 +13,16 @@ model User {
 
   cities     City[]
   userTopics UserTopic[]
+  settings   UserSettings[]
 }
+
+model UserSettings {
+  id       String @id @default(cuid())
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  settings Json
+}
+
 
 // delete from "UserTopic" where id <> '';
 // delete from "City" where id <> 0;

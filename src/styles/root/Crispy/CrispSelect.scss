@@ -56,8 +56,7 @@
 		--crp-select-background-size: right 5px top 50%;
 	}
 
-	&:hover,
-	&:focus {
+	&:hover {
 		color: var(--crp-select-color-hover);
 		border: var(--crp-select-border-hover);
 		background-color: var(--crp-select-background-hover);
