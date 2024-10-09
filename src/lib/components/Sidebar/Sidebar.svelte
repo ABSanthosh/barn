@@ -6,6 +6,7 @@
 	import Logo from '$images/logo.webp';
 	import { page } from '$app/stores';
 	import { setTheme, theme } from '$lib/Store/ThemeStore';
+	import { toggleSettings } from '$lib/Store/SettingStore';
 
 	$: navState = false;
 	$: userProfileMenu = false;
@@ -66,6 +67,10 @@
 				);
 			});
 	};
+
+	let hamburger: HTMLInputElement;
+
+	$: console.log(navState);
 </script>
 
 <nav
@@ -77,6 +82,17 @@
 		if (window.matchMedia('(max-width: 845px)').matches) closeSideBar();
 	}}
 >
+	<div class="Sidebar__Hamburger">
+		<input type="checkbox" id="NavBarInput" bind:this={hamburger} bind:value={navState} />
+		<!-- on:change={() => (navState = !navState)} -->
+		<div class="hamButton">
+			<label class="HamMenu" for="NavBarInput">
+				<span class="span HL1" />
+				<span class="span HL2" />
+				<span class="span HL3" />
+			</label>
+		</div>
+	</div>
 	<div class="Sidebar__logo Row--between gap-15">
 		<a href="/">
 			<img src={Logo} alt="logo" />
@@ -142,6 +158,17 @@
 	</ul>
 
 	<div class="Sidebar__bottom">
+		<button
+			class="Sidebar__settings CrispButton active"
+			data-icon="settings"
+			title="Settings"
+			on:click={() => {
+				toggleSettings();
+			}}
+		>
+			<span> Settings </span>
+		</button>
+
 		<details
 			data-no-marker
 			use:clickOutside
@@ -229,22 +256,84 @@
 			left: 0;
 		}
 
-		&.open {
-			gap: 30px;
-			@include box(250px);
-			padding: 40px 20px 15px 20px;
+		&__Hamburger {
+			#NavBarInput,
+			.hamButton {
+				display: none;
+			}
 
+			.hamButton {
+				@include respondAt(650px) {
+					z-index: 1;
+					width: auto;
+					height: 20px;
+					position: absolute;
+					right: -40px;
+					top: 20px;
+					@include make-flex();
+					label {
+						height: 100%;
+						margin: unset;
+						@include make-flex($just: space-around);
+						cursor: pointer;
+						span {
+							width: 20px;
+							display: block;
+							transform-origin: 4px 0px;
+							transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+							border-top: 2px solid var(--separator);
+							border-radius: 10px;
+							&:first-child {
+								transform-origin: 0% 0%;
+							}
+							&:nth-last-child(2) {
+								transform-origin: 0% 100%;
+							}
+						}
+					}
+				}
+			}
+
+			#NavBarInput:checked ~ .hamButton > label > .span.HL1 {
+				opacity: 1;
+				transform: rotate(45deg) translate(3px, -4px);
+			}
+			#NavBarInput:checked ~ .hamButton > label > .span.HL2 {
+				opacity: 0;
+				transform: rotate(0deg) scale(0.2, 0.2);
+			}
+			#NavBarInput:checked ~ .hamButton > label > .span.HL3 {
+				transform: rotate(-45deg) translate(4px, 0px);
+			}
+		}
+
+		@include respondAt(650px) {
+			overflow: unset;
+			max-width: 250px;
+			width: 100%;
+			position: absolute;
+			height: 100%;
+			left: -250px;
+			border-radius: 18px 0 0 18px;
+			background-color: var(--modal-bg);
+			transition: left 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+		}
+
+		&.open {
+			@include respondAtOpp(650px) {
+				gap: 30px;
+				@include box();
+				padding: 40px 20px 15px 20px;
+			}
 			.Sidebar__menuList {
 				padding-left: 6px;
 				margin-left: -13px;
 				scrollbar-gutter: stable;
 				@include box(calc(100% + 15px), fit-content);
 			}
-
 			.Sidebar__user {
 				padding: 7px 3px 7px 3px;
 			}
-
 			.Sidebar__bottom {
 				.CrispMenu {
 					--crp-menu-height: auto;
@@ -254,6 +343,10 @@
 						padding: 0px;
 					}
 				}
+			}
+			@include respondAt(650px) {
+				left: 0;
+				@include box();
 			}
 		}
 
@@ -349,6 +442,17 @@
 			}
 		}
 
+		&__settings {
+			@include box(100%, 37px);
+			@include make-flex($just: flex-start, $dir: row);
+			padding: 0px 9px;
+			overflow: hidden;
+			line-height: normal;
+			flex-shrink: 0;
+
+			white-space: nowrap;
+		}
+
 		&__toggle {
 			&::before {
 				transition: transform 0.3s;
@@ -427,12 +531,13 @@
 
 		&__bottom {
 			gap: 10px;
-			@include make-flex($align: flex-start);
+			@include make-flex();
 			@include box(100%, auto);
 
 			.CrispMenu {
 				// border-top: 1px solid #eaecf0;
 				// border-bottom: 1px solid #eaecf0;
+				align-self: flex-start;
 
 				--crp-menu-height: 50px;
 				--crp-menu-box-shadow: none;

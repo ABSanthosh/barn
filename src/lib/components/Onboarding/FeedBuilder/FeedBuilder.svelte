@@ -221,13 +221,12 @@
 				overflow: unset;
 				max-width: 280px;
 				position: absolute;
-				// transform: translateX(-100%);
+				height: 100%;
 				left: -280px;
 				border-radius: 18px 0 0 18px;
 				background-color: var(--modal-bg);
 				transition: left 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 				&--open {
-					// transform: translateX(0%);
 					left: 0;
 				}
 			}
