@@ -165,7 +165,7 @@
 						display: block;
 						transform-origin: 4px 0px;
 						transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
-						border-top: 2px solid var(--separator);
+						border-top: 2px solid var(--border);
 						border-radius: 10px;
 						&:first-child {
 							transform-origin: 0% 0%;

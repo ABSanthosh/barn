@@ -67,10 +67,6 @@
 				);
 			});
 	};
-
-	let hamburger: HTMLInputElement;
-
-	$: console.log(navState);
 </script>
 
 <nav
@@ -78,13 +74,11 @@
 	use:clickOutside
 	class:open={navState || userProfileMenu}
 	on:outclick={() => {
-		// match media query 845px
 		if (window.matchMedia('(max-width: 845px)').matches) closeSideBar();
 	}}
 >
 	<div class="Sidebar__Hamburger">
-		<input type="checkbox" id="NavBarInput" bind:this={hamburger} bind:value={navState} />
-		<!-- on:change={() => (navState = !navState)} -->
+		<input type="checkbox" id="NavBarInput" bind:checked={navState} />
 		<div class="hamButton">
 			<label class="HamMenu" for="NavBarInput">
 				<span class="span HL1" />
@@ -247,6 +241,7 @@
 		border-right: 2px solid var(--border);
 		// padding: 20px 8px 10px 10px;
 		padding: 8px;
+		backdrop-filter: blur(10px);
 		z-index: 1;
 		transition: all 0.3s ease-in-out;
 
@@ -281,7 +276,7 @@
 							display: block;
 							transform-origin: 4px 0px;
 							transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
-							border-top: 2px solid var(--separator);
+							border-top: 2px solid var(--border);
 							border-radius: 10px;
 							&:first-child {
 								transform-origin: 0% 0%;
@@ -315,14 +310,13 @@
 			height: 100%;
 			left: -250px;
 			border-radius: 18px 0 0 18px;
-			background-color: var(--modal-bg);
 			transition: left 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 		}
 
 		&.open {
 			@include respondAtOpp(650px) {
 				gap: 30px;
-				@include box();
+				@include box(250px);
 				padding: 40px 20px 15px 20px;
 			}
 			.Sidebar__menuList {

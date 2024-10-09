@@ -158,6 +158,30 @@
 					border-bottom-right-radius: 7px;
 				}
 			}
+
+			@include respondAt(435px) {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				.CrispButton {
+					--crp-button-width: 100%;
+
+					&:first-child {
+						border-radius: 0;
+						border-top-left-radius: 7px;
+					}
+
+					&:nth-child(2) {
+						border-top-right-radius: 7px;
+					}
+
+					&:last-child {
+						border-radius: 0;
+						border-bottom-left-radius: 7px;
+						border-bottom-right-radius: 7px;
+						grid-column: 1 / -1;
+					}
+				}
+			}
 		}
 		& {
 			gap: 20px;
