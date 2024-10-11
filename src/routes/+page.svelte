@@ -5,15 +5,17 @@
 <Header />
 
 <main class="HomePage">
-	<section class="Splash">
-		<h1>
-			Stay Informed, <br />
-			<span> Effortlessly </span>
-		</h1>
-		<p>
-			Discover the latest news from trusted sources, all in one place. Get updates that matter to
-			you, anytime, anywhere.
-		</p>
+	<section class="SplashWrapper">
+		<div class="Splash">
+			<h1>
+				Stay Informed, <br />
+				<span> Effortlessly </span>
+			</h1>
+			<p>
+				Discover the latest news from trusted sources, all in one place. Get updates that matter to
+				you, anytime, anywhere.
+			</p>
+		</div>
 	</section>
 
 	<section class="About">
@@ -69,56 +71,59 @@
 		}
 	}
 
-	.Splash {
-		width: 100%;
-		height: 50vh;
-		margin-top: 70px;
-		border-radius: 20px;
+	.SplashWrapper {
+		@include box(100%, 80vh);
+		@include make-flex();
 
-		background-size: cover;
-		background-position: center;
-		background-repeat: no-repeat;
-		grid-template-columns: 1.2fr 1fr;
-		background-image: url(/src/lib/images/Clouds5.jpg);
+		.Splash {
+			margin-top: 70px;
+			height: 80%;
+			border-radius: 20px;
 
-		gap: 20px;
-		padding: 15px 50px 15px 50px;
-		@include make-flex($align: flex-start);
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+			grid-template-columns: 1.2fr 1fr;
+			background-image: url(/src/lib/images/Clouds5.jpg);
 
-		@include respondAt(646px) {
-			padding: 15px 30px 15px 30px;
-		}
-
-		h1 {
-			font-size: 50px;
-			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.236);
-			margin-top: 0;
-			line-height: 1.5;
-
-			span {
-				color: light-dark(#fbffb3, #494d00);
-			}
+			gap: 20px;
+			padding: 15px 50px 15px 50px;
+			@include make-flex($align: flex-start);
 
 			@include respondAt(646px) {
-				font-size: 40px;
+				padding: 15px 30px 15px 30px;
 			}
-		}
 
-		& > p {
-			width: 70%;
-			font-size: 20px;
-			color: #656746;
+			h1 {
+				font-size: 50px;
+				text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.236);
+				margin-top: 0;
+				line-height: 1.5;
 
-			@include respondAt(646px) {
-				width: 100%;
+				span {
+					color: light-dark(#fbffb3, #494d00);
+				}
+
+				@include respondAt(646px) {
+					font-size: 40px;
+				}
 			}
-		}
 
-		@include respondAt(1015px) {
-			margin-top: 60px;
+			& > p {
+				width: 70%;
+				font-size: 20px;
+				color: #656746;
+
+				@include respondAt(646px) {
+					width: 100%;
+				}
+			}
+
+			@include respondAt(1015px) {
+				margin-top: 60px;
+			}
 		}
 	}
-
 	.AboutGroup {
 		width: 100%;
 		display: grid;
@@ -143,7 +148,7 @@
 			max-width: $maxWidth;
 			margin: 0 48px;
 			h2 {
-				font-size: 48px;
+				font-size: 45px;
 				font-weight: 600;
 				margin: 32px 0;
 
@@ -153,7 +158,7 @@
 			}
 
 			p {
-				font-size: 23px;
+				font-size: 21px;
 				max-width: 100%;
 				line-height: 31px;
 
