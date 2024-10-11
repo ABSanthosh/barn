@@ -31,15 +31,10 @@
 			</span>
 		{/if}
 		<span data-icon="timer">
-			{data.content?.estimatedReadingTime}
+			{data.content?.readingTime}
 		</span>
 
-		<a
-			href={data.content?.source}
-			target="_blank"
-			rel="noopener noreferrer"
-			data-icon="open_in_new"
-		>
+		<a href={data.content?.link} target="_blank" rel="noopener noreferrer" data-icon="open_in_new">
 			<span>Read Original Article</span>
 		</a>
 	</div>
@@ -55,7 +50,7 @@
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
-						content: data.content?.textContent
+						content: data.content?.text
 					})
 				})
 					.then((res) => res.json())
@@ -73,7 +68,7 @@
 		</p>
 	</details>
 
-	{@html data.content?.content}
+	{@html data.content?.html}
 
 	<a href="/app" data-icon="arrow_back" class="CrispButton"> Back </a>
 </main>
@@ -81,6 +76,10 @@
 <style lang="scss" global>
 	.Article {
 		padding: 60px 10px;
+
+		@include respondAt(650px) {
+			padding: 30px 20px;
+		}
 
 		&__details {
 			background:

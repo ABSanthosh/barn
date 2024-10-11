@@ -96,7 +96,10 @@
 
 			<li class="FeedItem">
 				<div class="FeedItem__top" data-type={itemType}>
-					<a class="FeedItem__box" href={`/app/article/${encodeURIComponent(item.link)}`}>
+					<a
+						class="FeedItem__box"
+						href={`/app/article/${encodeURIComponent(item.id)}?day=today&topic=${item.topic}`}
+					>
 						<span>
 							{getSource(item.link)}
 						</span>

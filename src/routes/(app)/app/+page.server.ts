@@ -15,21 +15,25 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const allUserTopics = await getUniqueUserTopics(locals.user?.id!);
 
 	const uniqueCategories = new Set(
-		allUserTopics.map(
-			(topic) => `${GITHUB_PAGES_URL}/today/${encodeURIComponent(topic.category)}.json`
+		allUserTopics.map((topic) => {
+			const category = encodeURIComponent(topic.category);
+			return `${GITHUB_PAGES_URL}/today/${category}/${category}.json`;
+		})
+	);
+
+	const userContent = (
+		await Promise.all(
+			Array.from(uniqueCategories).map(async (url) => {
+				const response = await fetch(url);
+				return (await response.json())
+					.map((topic: GithubTopic) => {
+						topic.topic = url.split('/').pop()!.replace('.json', '');
+						return topic;
+					})
+					.slice(0, 10);
+			})
 		)
-	);
-	const userContent: GithubTopic[] = shuffle(
-		(
-			await Promise.all(
-				Array.from(uniqueCategories).map(async (url) => {
-					const response = await fetch(url);
-					const json = (await response.json()).slice(0, 10);
-					return json;
-				})
-			)
-		).flat() as GithubTopic[]
-	);
+	).flat() as GithubTopic[];
 
 	return {
 		userContent
