@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "vite dev --host",
 		"build": "npx prisma generate && vite build",
+		"prod": "git checkout prod && git merge dev && git push && git checkout dev",
 		"enable-playwright": "nix shell github:pietdevries94/playwright-web-flake#playwright-test",
 		"preview": "vite preview",
 		"test": "npm run test:unit",
