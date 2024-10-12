@@ -2,6 +2,7 @@
 	import { toggleSettings } from '$lib/Store/SettingStore';
 	import AccountSettings from './AccountSettings.svelte';
 	import GeneralSettings from './GeneralSettings.svelte';
+	import PremiumSettings from './PremiumSettings.svelte';
 	import TopicSettings from './TopicSettings.svelte';
 
 	$: sideBarOpen = false;
@@ -12,7 +13,8 @@
 	const settingItems = [
 		{ name: 'General', component: GeneralSettings },
 		{ name: 'Account', component: AccountSettings },
-		{ name: 'Topics', component: TopicSettings }
+		{ name: 'Topics', component: TopicSettings },
+		{ name: 'Premium', component: PremiumSettings }
 	];
 </script>
 

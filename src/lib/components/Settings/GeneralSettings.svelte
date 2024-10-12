@@ -7,11 +7,11 @@
 	import type { ActionResult } from '@sveltejs/kit';
 
 	let generalSettingsData = {
-		theme: $UserStore?.settings.theme,
+		theme: $UserStore?.settings.theme!,
 		articlesPerPage: $UserStore?.settings.articlesPerPage
 	};
 
-	$: themeToggleTransition(generalSettingsData.theme!);
+	// $: generalSettingsData.theme, themeToggleTransition(generalSettingsData.theme!);
 
 	let themeToggle: HTMLSelectElement;
 	const themeToggleTransition = async (theme: Theme) => {
@@ -92,8 +92,13 @@
 	action="/app?/updateGeneralSettings"
 >
 	<label class="CrispLabel" data-direction="row" data-justify="space-between">
-		<span style="color: inherit;"> Theme </span>
-		<select id="theme" class="CrispSelect" bind:value={generalSettingsData.theme}>
+		<span style="color: inherit;"> Default Theme </span>
+		<select
+			id="theme"
+			class="CrispSelect"
+			bind:value={generalSettingsData.theme}
+			on:change={() => themeToggleTransition(generalSettingsData.theme)}
+		>
 			<option value="light">Light</option>
 			<option value="dark">Dark</option>
 		</select>
