@@ -4,12 +4,12 @@
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
 	import { theme } from '$lib/Store/ThemeStore';
-	import { UserStore } from '$lib/Store/UserStore';
+	import { setUser } from '$lib/Store/UserStore';
 	import Toast from '$components/Toast/Toast.svelte';
 	import { addToast, ToastStore } from '$lib/Store/ToastStore';
 	export let data: PageData;
 
-	$: UserStore.set(data.user);
+	$: setUser(data.user);
 	onMount(() => {
 		if ($page.url.searchParams.get('error') !== null) {
 			addToast({

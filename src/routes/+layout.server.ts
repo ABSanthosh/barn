@@ -5,3 +5,4 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 		user: locals.user || null // Pass the user data to the client
 	};
 };
+

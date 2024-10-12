@@ -24,6 +24,14 @@
 	background: transparent;
 }
 
+// global needs
+*[data-mandatory] {
+	&:after {
+		content: ' *';
+		color: red;
+	}
+}
+
 html {
 	overflow: hidden;
 	line-height: 1.75;

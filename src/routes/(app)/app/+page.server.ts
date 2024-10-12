@@ -1,7 +1,9 @@
 import { getUniqueUserTopics } from '$db/Topic.db';
 import { GITHUB_PAGES_URL } from '$env/static/private';
 import type { GithubTopic } from '$types/Topic.type';
-import type { PageServerLoad } from './$types';
+import type { UserSettings } from '$types/User.type';
+import type { Actions, PageServerLoad } from './$types';
+import { updateUserName, updateUserSetting } from '$db/User.db';
 
 function shuffle<T>(array: T[]): T[] {
 	for (let i = array.length - 1; i > 0; i--) {
@@ -9,6 +11,15 @@ function shuffle<T>(array: T[]): T[] {
 		[array[i], array[j]] = [array[j], array[i]];
 	}
 	return array;
+}
+
+function fixRelativeLinks(topics: GithubTopic[]) {
+	return topics.map((topic) => {
+		if (topic.image.startsWith('/')) {
+			topic.image = '';
+		}
+		return topic;
+	});
 }
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -36,6 +47,22 @@ export const load: PageServerLoad = async ({ locals }) => {
 	).flat() as GithubTopic[];
 
 	return {
-		userContent
+		userContent: fixRelativeLinks(userContent)
 	};
+};
+
+export const actions: Actions = {
+	updateSettings: async ({ request }) => {
+		const formData = await request.formData();
+		const data = JSON.parse(`${Object.fromEntries(formData)['userStore']}`) as {
+			name: string;
+			id: string;
+			settings: UserSettings;
+		};
+
+		return {
+			user: await updateUserName(data.id, data.name),
+			settings: await updateUserSetting(data.id, data.settings)
+		};
+	}
 };

@@ -5,7 +5,7 @@
 	import TopicSettings from './TopicSettings.svelte';
 
 	$: sideBarOpen = false;
-	$: selectedSetting = 'General';
+	$: selectedSetting = 'Account';
 
 	let hamburger: HTMLInputElement;
 
