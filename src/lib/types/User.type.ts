@@ -4,6 +4,7 @@ export interface UserProfile {
 	name: string;
 	picture: string | null;
 	newUser: boolean;
+	premiumUser: boolean;
 	updatedAt: Date;
 }
 

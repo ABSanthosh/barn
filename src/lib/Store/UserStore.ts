@@ -11,6 +11,7 @@ export const UserStore: Writable<
 	email: '',
 	name: '',
 	picture: null,
+	premiumUser: false,
 	newUser: true,
 	updatedAt: new Date(),
 	settings: {
@@ -46,3 +47,15 @@ export const setUserSettings = (settings: UserSettings) => {
 		return null;
 	});
 };
+
+export const setUserPremium = (premiumUser: boolean) => {
+	UserStore.update((store) => {
+		if (store) {
+			return {
+				...store,
+				premiumUser
+			};
+		}
+		return null;
+	});
+}

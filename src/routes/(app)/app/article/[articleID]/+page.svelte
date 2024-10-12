@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
-
+	import { UserStore } from '$lib/Store/UserStore';
+	import { addToast } from '$lib/Store/ToastStore';
 	export let data: PageData;
 
 	onMount(() => {
@@ -44,17 +45,25 @@
 		on:toggle={(e) => {
 			// @ts-ignore
 			if (e.target.open && summary === '') {
-				fetch(`/summarize`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						content: data.content?.text
+				if ($UserStore?.premiumUser) {
+					fetch(`/summarize`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							content: data.content?.text
+						})
 					})
-				})
-					.then((res) => res.json())
-					.then((res) => (summary = res));
+						.then((res) => res.json())
+						.then((res) => (summary = res));
+				} else {
+					addToast({
+						dir: 'bottom',
+						message: 'Upgrade to premium to use this feature',
+						type: 'danger'
+					});
+				}
 			}
 		}}
 	>

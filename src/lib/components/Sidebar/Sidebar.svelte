@@ -101,7 +101,7 @@
 					href={route.route}
 					data-type="ghost"
 					class:active={route.route === $page.url.pathname ||
-						route.alt?.some((alt) => alt === $page.url.pathname)}
+						route.alt?.some((alt) => $page.url.pathname.includes(alt))}
 					data-icon={String.fromCharCode(route.icon)}
 					title={route.name}
 				>

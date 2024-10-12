@@ -8,6 +8,7 @@ model User {
   accessToken  String
   refreshToken String
   idToken      String?
+  premiumUser  Boolean   @default(false)
   createdAt    DateTime? @default(now())
   updatedAt    DateTime? @updatedAt
 

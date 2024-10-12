@@ -3,7 +3,7 @@ import { GITHUB_PAGES_URL } from '$env/static/private';
 import type { GithubTopic } from '$types/Topic.type';
 import type { UserSettings } from '$types/User.type';
 import type { Actions, PageServerLoad } from './$types';
-import { updateUserName, updateUserSetting } from '$db/User.db';
+import { makeUserPremium, updateUserName, updateUserSetting } from '$db/User.db';
 
 function shuffle<T>(array: T[]): T[] {
 	for (let i = array.length - 1; i > 0; i--) {
@@ -74,6 +74,14 @@ export const actions: Actions = {
 
 		return {
 			settings: await updateUserSetting(data.id, data.settings)
+		};
+	},
+	confirmPremiumPurchase: async ({ request }) => {
+		const id = (await request.formData()).get('id') as string;
+		// const id = (await request.json()).id as string;
+
+		return {
+			response: await makeUserPremium(id)
 		};
 	}
 };

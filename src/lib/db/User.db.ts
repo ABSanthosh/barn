@@ -34,6 +34,7 @@ export async function getUserById(id: string): Promise<
 			name: user.name,
 			newUser: user.newUser,
 			updatedAt: user.updatedAt!,
+			premiumUser: user.premiumUser,
 			settings: JSON.parse(`${user?.settings[0].settings}`)
 		};
 	}
@@ -64,5 +65,12 @@ export async function updateUserSetting(userId: string, setting: UserSettings) {
 			userId,
 			settings: JSON.stringify(setting)
 		}
+	});
+}
+
+export async function makeUserPremium(userId: string) {
+	return await db.user.update({
+		where: { id: userId },
+		data: { premiumUser: true }
 	});
 }

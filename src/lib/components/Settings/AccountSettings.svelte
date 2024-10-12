@@ -37,6 +37,7 @@
 					id: result.data?.user.id,
 					picture: result.data?.user.picture,
 					newUser: result.data?.user.newUser,
+					premiumUser: result.data?.user.premiumUser,
 					updatedAt: result.data?.user.updatedAt
 				};
 				setUser(newUserData);

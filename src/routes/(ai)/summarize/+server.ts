@@ -1,5 +1,4 @@
 import { GEMINI_API_KEY } from '$env/static/private';
-import { nlp } from '$utils/nlp';
 import type { RequestHandler } from './$types';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 

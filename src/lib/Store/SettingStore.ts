@@ -5,7 +5,7 @@ export interface TSetting {
 }
 
 export const SettingStore = writable<TSetting>({
-	isSettingsOpen: true
+	isSettingsOpen: false
 });
 
 export const toggleSettings = () => {

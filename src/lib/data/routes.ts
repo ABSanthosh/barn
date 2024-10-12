@@ -11,6 +11,7 @@ export const ROUTES: Route[] = [
 		name: 'Feed',
 		route: '/app',
 		icon: 59530,
+		alt: ['/article'],
 		children: [] as Route[]
 	}
 ];
