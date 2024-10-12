@@ -18,19 +18,30 @@ export async function GET({ url, cookies }) {
 		).getPayload();
 
 		if (payload) {
-			const dbUser = await upsertUser({
-				newUser: true,
-				id: payload.sub,
-				updatedAt: null,
-				createdAt: null,
-				googleId: payload.sub,
-				name: payload.name || '',
-				email: payload.email || '',
-				picture: payload.picture || '',
-				idToken: client.credentials.id_token!,
-				accessToken: client.credentials.access_token!,
-				refreshToken: client.credentials.refresh_token!
-			});
+			const dbUser = await upsertUser(
+				{
+					newUser: true,
+					id: payload.sub,
+					updatedAt: null,
+					createdAt: null,
+					googleId: payload.sub,
+					name: payload.name || '',
+					email: payload.email || '',
+					picture: payload.picture || '',
+					idToken: client.credentials.id_token!,
+					accessToken: client.credentials.access_token!,
+					refreshToken: client.credentials.refresh_token!,
+					premiumUser: false
+				},
+				{
+					theme: 'light',
+					articlesPerPage: 10,
+					dateOfBirth: null,
+					isStudent: false,
+					phone: null,
+					school: null
+				}
+			);
 		} else {
 			throw redirect(303, '/?error=No%20payload%20found');
 		}

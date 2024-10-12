@@ -2,7 +2,6 @@ import db from '$db';
 import type { TCity } from '$types/City.type';
 
 export async function addUserCity(userId: string, city: TCity[]) {
-	console.log('userId', city);
 	return await db.city.createMany({
 		data: city.map((c) => ({
 			userId,

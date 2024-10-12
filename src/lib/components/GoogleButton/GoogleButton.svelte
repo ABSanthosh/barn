@@ -5,7 +5,7 @@
 	$: isProfileOpen = false;
 </script>
 
-{#if $UserStore === null}
+{#if JSON.stringify($UserStore) === '{}'}
 	<form hidden action="/auth?/login" method="POST" id="google-login" />
 	<button class="Google--button CrispButton" type="submit" form="google-login">
 		<svg

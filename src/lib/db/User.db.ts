@@ -3,13 +3,20 @@ import db from './index';
 import { type UserProfile, type UserSettings } from '../types/User.type';
 
 // upsert user
-export async function upsertUser(user: User) {
+export async function upsertUser(user: User, settings: UserSettings) {
 	const { createdAt, updatedAt, newUser, ...userWithoutTimestamps } = user;
 
 	return await db.user.upsert({
 		where: { id: userWithoutTimestamps.id },
 		update: userWithoutTimestamps,
-		create: userWithoutTimestamps
+		create: {
+			...userWithoutTimestamps,
+			settings: {
+				create: {
+					settings: JSON.stringify(settings)
+				}
+			}
+		}
 	});
 }
 
@@ -24,7 +31,6 @@ export async function getUserById(id: string): Promise<
 		where: { id },
 		include: { settings: true }
 	});
-
 	if (!user) return null;
 	else {
 		return {

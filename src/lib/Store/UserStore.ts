@@ -2,27 +2,14 @@ import type { UserProfile, UserSettings } from '$types/User.type';
 import { writable, type Writable } from 'svelte/store';
 
 export const UserStore: Writable<
-	| (UserProfile & {
-			settings: UserSettings;
-	  })
-	| null
-> = writable({
-	id: '',
-	email: '',
-	name: '',
-	picture: null,
-	premiumUser: false,
-	newUser: true,
-	updatedAt: new Date(),
-	settings: {
-		phone: null,
-		isStudent: false,
-		school: null,
-		dateOfBirth: null,
-		articlesPerPage: 0,
-		theme: 'light'
+	UserProfile & {
+		settings: UserSettings;
 	}
-});
+> = writable(
+	{} as UserProfile & {
+		settings: UserSettings;
+	}
+);
 
 export const setUser = (user: UserProfile | null) => {
 	UserStore.update((store) => {
@@ -32,7 +19,9 @@ export const setUser = (user: UserProfile | null) => {
 				...user
 			};
 		}
-		return null;
+		return {} as UserProfile & {
+			settings: UserSettings;
+		};
 	});
 };
 
@@ -44,7 +33,9 @@ export const setUserSettings = (settings: UserSettings) => {
 				settings
 			};
 		}
-		return null;
+		return {} as UserProfile & {
+			settings: UserSettings;
+		};
 	});
 };
 
@@ -56,6 +47,8 @@ export const setUserPremium = (premiumUser: boolean) => {
 				premiumUser
 			};
 		}
-		return null;
+		return {} as UserProfile & {
+			settings: UserSettings;
+		};
 	});
-}
+};

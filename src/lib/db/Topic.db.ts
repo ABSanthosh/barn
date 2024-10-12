@@ -35,7 +35,7 @@ export const getAllTopics = async (categorize: boolean = false) => {
 
 export const addUserTopics = async (userId: string, topicIds: string[]) => {
 	return await db.userTopic.createMany({
-		data: topicIds.map((id) => ({
+		data: topicIds.map((id) => ({ 
 			userId,
 			topicId: id
 		}))

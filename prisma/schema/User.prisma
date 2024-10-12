@@ -24,8 +24,9 @@ model UserSettings {
   settings Json
 }
 
-// delete from "UserTopic" where id <> '';
+// delete from "UserTopic" where id <> ''
 // delete from "City" where id <> 0;
+// delete from "UserSettings" where id <> '';
 // delete from "User" where id <> '';
 
 // Don't use

@@ -1,12 +1,15 @@
-<script>
+<script lang="ts">
 	import Modal from '$components/Modal.svelte';
 	import Settings from '$components/Settings/Settings.svelte';
 	import Sidebar from '$components/Sidebar/Sidebar.svelte';
 	import { toggleSettings, SettingStore } from '$lib/Store/SettingStore';
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
 </script>
 
 <Modal toggleModal={toggleSettings} showModal={$SettingStore.isSettingsOpen}>
-	<Settings />
+	<Settings allTopics={data.allTopics} />
 </Modal>
 
 <main class="HomeContainer">

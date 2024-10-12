@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { toggleSettings } from '$lib/Store/SettingStore';
+	import type { categorizedTopics } from '$types/Topic.type';
 	import AccountSettings from './AccountSettings.svelte';
 	import GeneralSettings from './GeneralSettings.svelte';
 	import PremiumSettings from './PremiumSettings.svelte';
@@ -9,12 +10,13 @@
 	$: selectedSetting = 'General';
 
 	let hamburger: HTMLInputElement;
+	export let allTopics: categorizedTopics = {};
 
 	const settingItems = [
-		{ name: 'General', component: GeneralSettings },
-		{ name: 'Account', component: AccountSettings },
-		{ name: 'Topics', component: TopicSettings },
-		{ name: 'Premium', component: PremiumSettings }
+		{ name: 'General', component: GeneralSettings, props: { allTopics: [] } as any },
+		{ name: 'Account', component: AccountSettings, props: { allTopics: [] } as any },
+		{ name: 'Topics', component: TopicSettings, props: { allTopics } as any },
+		{ name: 'Premium', component: PremiumSettings, props: { allTopics: [] } as any }
 	];
 </script>
 
@@ -60,7 +62,7 @@
 			<h3 class="Settings__feed--title">{selectedSetting}</h3>
 			{#each settingItems as item}
 				{#if selectedSetting === item.name}
-					<svelte:component this={item.component} />
+					<svelte:component this={item.component} {...item.props} />
 				{/if}
 			{/each}
 		</div>

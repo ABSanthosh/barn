@@ -13,6 +13,7 @@
 	} from '$lib/Store/OnboardStore';
 	import { UserStore } from '$lib/Store/UserStore';
 	import { goto } from '$app/navigation';
+	import { get } from 'svelte/store';
 
 	let searchTerm = '';
 	$: searchResult = search(
@@ -95,6 +96,7 @@
 					})
 					.flat();
 
+				console.log($UserStore?.id);
 				formData.append(
 					'onboardStore',
 					JSON.stringify({

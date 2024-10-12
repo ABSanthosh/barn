@@ -56,7 +56,7 @@
 		</div>
 		<div class="Header__right">
 			<GoogleButton />
-			{#if $UserStore !== null}
+			{#if JSON.stringify($UserStore) !== "{}"}
 				<a
 					class="CrispButton Header__right--appcta"
 					href="/app"
