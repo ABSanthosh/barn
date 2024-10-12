@@ -76,7 +76,6 @@
 		<input
 			type="text"
 			class="CrispInput"
-			style="width: 60%;"
 			id="name"
 			required
 			bind:value={accountSettingsData.name}
@@ -91,7 +90,6 @@
 			type="email"
 			class="CrispInput"
 			readonly
-			style="width: 60%;"
 			value={accountSettingsData.email}
 		/>
 	</label>
@@ -102,7 +100,6 @@
 			type="tel"
 			id="phone"
 			class="CrispInput"
-			style="width: 60%;"
 			required
 			bind:value={accountSettingsData.phone}
 		/>
@@ -114,7 +111,6 @@
 			id="isStudent"
 			type="checkbox"
 			class="CrispInput"
-			style="width: 60%; height: 100%;"
 			on:click={(e) => {
 				// @ts-ignore
 				accountSettingsData.isStudent = e.target.checked;
@@ -130,7 +126,6 @@
 			type="text"
 			id="school"
 			class="CrispInput"
-			style="width: 60%;"
 			bind:value={accountSettingsData.school}
 		/>
 	</label>
@@ -140,7 +135,6 @@
 		<input
 			type="date"
 			class="CrispInput"
-			style="width: 60%;"
 			id="dateOfBirth"
 			bind:value={accountSettingsData.dateOfBirth}
 		/>
@@ -169,11 +163,22 @@
 		@include box();
 		@include make-flex($just: flex-start);
 
-		// .CrispButton {
-		// 	&[data-type='success'] {
-		// 		margin-top: auto;
-		// 		margin-left: auto;
-		// 	}
-		// }
+		.CrispLabel {
+			// .CrispSelect,
+			.CrispInput {
+				height: 30px;
+
+				width: 60%;
+			}
+			@include respondAt(600px) {
+				flex-direction: column !important;
+				width: 100% !important;
+
+				// .CrispSelect,
+				.CrispInput {
+					width: 100% !important;
+				}
+			}
+		}
 	}
 </style>

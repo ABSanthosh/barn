@@ -5,7 +5,7 @@
 	import TopicSettings from './TopicSettings.svelte';
 
 	$: sideBarOpen = false;
-	$: selectedSetting = 'Account';
+	$: selectedSetting = 'General';
 
 	let hamburger: HTMLInputElement;
 
@@ -185,9 +185,9 @@
 		}
 
 		&__feed {
+			gap: 15px;
 			padding: 15px;
 			overflow-y: auto;
-			gap: 15px;
 			@include make-flex($just: flex-start, $align: flex-start);
 
 			&--title {

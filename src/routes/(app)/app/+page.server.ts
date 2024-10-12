@@ -41,7 +41,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 						topic.topic = url.split('/').pop()!.replace('.json', '');
 						return topic;
 					})
-					.slice(0, 10);
+					.slice(0, locals.user?.settings.articlesPerPage);
 			})
 		)
 	).flat() as GithubTopic[];
@@ -62,6 +62,17 @@ export const actions: Actions = {
 
 		return {
 			user: await updateUserName(data.id, data.name),
+			settings: await updateUserSetting(data.id, data.settings)
+		};
+	},
+	updateGeneralSettings: async ({ request }) => {
+		const formData = await request.formData();
+		const data = JSON.parse(`${Object.fromEntries(formData)['userStore']}`) as {
+			id: string;
+			settings: UserSettings;
+		};
+
+		return {
 			settings: await updateUserSetting(data.id, data.settings)
 		};
 	}

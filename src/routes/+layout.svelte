@@ -10,6 +10,7 @@
 	export let data: PageData;
 
 	$: setUser(data.user);
+	$: theme.set(data.user?.settings.theme!);
 	onMount(() => {
 		if ($page.url.searchParams.get('error') !== null) {
 			addToast({

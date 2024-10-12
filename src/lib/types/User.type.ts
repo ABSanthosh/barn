@@ -12,4 +12,6 @@ export type UserSettings = {
 	isStudent: boolean;
 	school: string | null;
 	dateOfBirth: string | null;
+	theme: Theme;
+	articlesPerPage: number;
 };

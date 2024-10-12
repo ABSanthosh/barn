@@ -17,7 +17,9 @@ export const UserStore: Writable<
 		phone: null,
 		isStudent: false,
 		school: null,
-		dateOfBirth: null
+		dateOfBirth: null,
+		articlesPerPage: 0,
+		theme: 'light'
 	}
 });
 

@@ -1,11 +1,15 @@
-import type { UserProfile } from '$types/User.type';
+import type { UserProfile, UserSettings } from '$types/User.type';
 
 // for information about these interfaces
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: UserProfile | null;
+			user:
+				| (UserProfile & {
+						settings: UserSettings;
+				  })
+				| null;
 		}
 		// interface PageData {}
 		// interface PageState {}
