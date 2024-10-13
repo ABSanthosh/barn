@@ -2,6 +2,7 @@
 	import { setTheme, theme } from '$lib/Store/ThemeStore';
 	import GoogleButton from '../GoogleButton/GoogleButton.svelte';
 	import { UserStore } from '$lib/Store/UserStore';
+	import Logo from '$images/logo.webp';
 
 	let themeToggle: HTMLButtonElement;
 
@@ -51,6 +52,7 @@
 	<div class="Header">
 		<div class="Header__left">
 			<a href="/">
+				<img src={Logo} alt="Barn" />
 				<h3>Barn</h3>
 			</a>
 		</div>
@@ -126,7 +128,13 @@
 
 				text-decoration: none;
 				color: var(--text);
+				@include make-flex($dir: row);
 				font-family: "Ubuntu", sans-serif;
+
+				img {
+					@include box(25px, 25px);
+					margin-right: 8px;
+				}
 
 				h3 {
 					height: 100%;
