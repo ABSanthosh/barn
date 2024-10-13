@@ -5,8 +5,12 @@
 	import type { PageData } from './$types';
 	import type { GithubTopic } from '$types/Topic.type';
 	import YtEmbed from '$components/YtEmbed.svelte';
+	import type { WeatherResponse } from '$types/Weather.type';
+	import WeatherCard from '$components/Weather/WeatherCard.svelte';
 
-	export let data: PageData;
+	export let data: PageData & {
+		weatherData: WeatherResponse[];
+	};
 
 	let greet = {
 		greet: '',
@@ -76,6 +80,11 @@
 	<div class="Feed__greet">
 		<h1>{greet.greet}</h1>
 		<p>{greet.funny}</p>
+	</div>
+	<div class="Feed__weather">
+		{#each data.weatherData as item}
+			<WeatherCard weatherData={item} />
+		{/each}
 	</div>
 	<div class="Tabs">
 		{#each ['All', 'Articles', 'Podcasts', 'Videos', 'Youtube'] as child, index}
@@ -184,6 +193,17 @@
 						grid-column: 1 / -1;
 					}
 				}
+			}
+		}
+
+		&__weather {
+			gap: 20px;
+			width: 100%;
+			display: grid;
+			grid-template-columns: repeat(2, minmax(200px, 1fr));
+
+			@include respondAt(870px) {
+				grid-template-columns: 1fr;
 			}
 		}
 		& {

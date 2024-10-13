@@ -1,22 +1,26 @@
 <script lang="ts">
 	import { toggleSettings } from '$lib/Store/SettingStore';
+	import type { TCity } from '$types/City.type';
 	import type { categorizedTopics } from '$types/Topic.type';
+	import { onMount } from 'svelte';
 	import AccountSettings from './AccountSettings.svelte';
 	import GeneralSettings from './GeneralSettings.svelte';
 	import PremiumSettings from './PremiumSettings.svelte';
 	import TopicSettings from './TopicSettings.svelte';
+	import WeatherSettings from './WeatherSettings.svelte';
 
 	$: sideBarOpen = false;
-	$: selectedSetting = 'General';
+	$: selectedSetting = 'Weather';
 
 	let hamburger: HTMLInputElement;
-	export let allTopics: categorizedTopics = {};
+	export const allTopics: categorizedTopics = {};
 
 	const settingItems = [
-		{ name: 'General', component: GeneralSettings, props: { allTopics: [] } as any },
-		{ name: 'Account', component: AccountSettings, props: { allTopics: [] } as any },
-		{ name: 'Topics', component: TopicSettings, props: { allTopics } as any },
-		{ name: 'Premium', component: PremiumSettings, props: { allTopics: [] } as any }
+		{ name: 'General', component: GeneralSettings, props: {} as any },
+		{ name: 'Account', component: AccountSettings, props: {} as any },
+		// { name: 'Topics', component: TopicSettings, props: { allTopics } as any },
+		{ name: 'Weather', component: WeatherSettings, props: {} as any },
+		{ name: 'Premium', component: PremiumSettings, props: {} as any }
 	];
 </script>
 

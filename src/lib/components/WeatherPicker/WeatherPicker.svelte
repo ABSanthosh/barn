@@ -4,7 +4,7 @@
 	import Cities from '$data/cities.json';
 	import { fly } from 'svelte/transition';
 	import clickOutside from '$directive/clickOutside';
-	import { applyAction, enhance } from '$app/forms';
+	import { enhance } from '$app/forms';
 	import {
 		clearLocalOnboardStore,
 		maxCities,
@@ -13,7 +13,6 @@
 	} from '$lib/Store/OnboardStore';
 	import { UserStore } from '$lib/Store/UserStore';
 	import { goto } from '$app/navigation';
-	import { get } from 'svelte/store';
 
 	let searchTerm = '';
 	$: searchResult = search(
@@ -25,6 +24,8 @@
 	).slice(0, 5);
 
 	let cityInput: HTMLInputElement;
+
+	export let isStandalone = false;
 </script>
 
 <div class="WeatherPicker">
@@ -48,7 +49,7 @@
 						in:fly={{ y: 10, duration: 300 }}
 						class="CrispButton"
 						on:click={() => {
-							toggleCity(city);
+							toggleCity(city, isStandalone);
 							searchTerm = '';
 						}}
 					>
@@ -59,7 +60,7 @@
 		{/if}
 	</div>
 	<div class="WeatherPicker__middle">
-		{#each $OnboardStore.selectedCities as city (city.name)}
+		{#each $OnboardStore.selectedCities as city}
 			<div class="WeatherCard">
 				<h3>{city.name}</h3>
 				<p>{city.country}</p>
@@ -75,55 +76,62 @@
 					>
 						Go to map
 					</a>
-					<button class="CrispButton" data-type="danger" on:click={() => toggleCity(city)}>
+					<button
+						class="CrispButton"
+						data-type="danger"
+						on:click={() => toggleCity(city, isStandalone)}
+					>
 						Remove
 					</button>
 				</div>
 			</div>
 		{/each}
 	</div>
-	<div class="WeatherPicker__bottom">
-		<a href="/app/onboarding/feed" class="CrispButton">
-			<span>Previous</span>
-		</a>
-		<form
-			action="/app/onboarding?/preferences"
-			method="post"
-			use:enhance={({ formData }) => {
-				const parseStoreTopics = Object.keys($OnboardStore.selectedTopicItems)
-					.map((topic) => {
-						return $OnboardStore.selectedTopicItems[topic].map((item) => item.id);
-					})
-					.flat();
+	{#if !isStandalone}
+		<div class="WeatherPicker__bottom">
+			<a href="/app/onboarding/feed" class="CrispButton">
+				<span>Previous</span>
+			</a>
+			<form
+				action="/app/onboarding?/preferences"
+				style="margin-left: auto;"
+				method="post"
+				use:enhance={({ formData }) => {
+					const parseStoreTopics = Object.keys($OnboardStore.selectedTopicItems)
+						.map((topic) => {
+							return $OnboardStore.selectedTopicItems[topic].map((item) => item.id);
+						})
+						.flat();
 
-				console.log($UserStore?.id);
-				formData.append(
-					'onboardStore',
-					JSON.stringify({
-						userId: $UserStore?.id,
-						selectedCities: $OnboardStore.selectedCities,
-						selectedTopicItems: parseStoreTopics
-					})
-				);
+					formData.append(
+						'onboardStore',
+						JSON.stringify({
+							userId: $UserStore?.id,
+							selectedCities: $OnboardStore.selectedCities,
+							selectedTopicItems: parseStoreTopics
+						})
+					);
 
-				return async ({ result, update }) => {
-					if (result.type === 'redirect') {
-						clearLocalOnboardStore();
-						goto(result.location);
-					}
+					return async ({ result, update }) => {
+						if (result.type === 'redirect') {
+							clearLocalOnboardStore();
+							goto(result.location);
+						}
 
-					update();
-				};
-			}}
-		>
-			<button type="submit" class="CrispButton" data-type="success"> Save </button>
-		</form>
-	</div>
+						update();
+					};
+				}}
+			>
+				<button type="submit" class="CrispButton" data-type="success"> Save </button>
+			</form>
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
 	.WeatherPicker {
 		gap: 20px;
+		min-width: 0;
 		padding: 20px;
 		overflow: hidden;
 		position: relative;

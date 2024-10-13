@@ -2,10 +2,19 @@
 	import Modal from '$components/Modal.svelte';
 	import Settings from '$components/Settings/Settings.svelte';
 	import Sidebar from '$components/Sidebar/Sidebar.svelte';
+	import { preloadCities } from '$lib/Store/OnboardStore';
 	import { toggleSettings, SettingStore } from '$lib/Store/SettingStore';
+	import type { TCity } from '$types/City.type';
+	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
 
-	export let data: LayoutData;
+	export let data: LayoutData & {
+		userCities: TCity[];
+	};
+
+	onMount(() => {
+		preloadCities(data.userCities);
+	});
 </script>
 
 <Modal toggleModal={toggleSettings} showModal={$SettingStore.isSettingsOpen}>

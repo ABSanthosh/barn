@@ -1,4 +1,4 @@
-import { addUserCity } from '$db/City.db';
+import { addUserCities } from '$db/City.db';
 import { addUserTopics } from '$db/Topic.db';
 import type { TCity } from '$types/City.type';
 import { redirect } from '@sveltejs/kit';
@@ -20,7 +20,7 @@ export const actions: Actions = {
 		};
 
 		const result = {
-			city: await addUserCity(formData.userId, formData.selectedCities),
+			city: await addUserCities(formData.userId, formData.selectedCities),
 			topics: await addUserTopics(formData.userId, formData.selectedTopicItems),
 			userVirginity: await takeUserVirginity(formData.userId)
 		};
