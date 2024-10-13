@@ -152,8 +152,7 @@
 		@include make-flex($just: flex-start);
 
 		.CrispLabel {
-			.CrispSelect,
-			.CrispInput {
+			.CrispSelect {
 				width: 60%;
 				height: 30px;
 			}
@@ -161,8 +160,7 @@
 				flex-direction: column !important;
 				width: 100% !important;
 
-				.CrispSelect,
-				.CrispInput {
+				.CrispSelect {
 					width: 100% !important;
 				}
 			}

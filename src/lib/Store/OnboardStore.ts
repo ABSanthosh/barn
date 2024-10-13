@@ -1,5 +1,4 @@
 import { browser } from '$app/environment';
-import { removeUserCity } from '$db/City.db';
 import type { TCity } from '$types/City.type';
 import type { categorizedTopics } from '$types/Topic.type';
 import { get, writable, type Writable } from 'svelte/store';
