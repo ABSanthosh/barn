@@ -92,7 +92,7 @@ export function toggleCity(city: TCity, standalone = false) {
 						if (!res.ok) {
 							alert('Failed to remove city');
 						} else {
-							invalidate('weather:count');
+							invalidate('app:load');
 							alert('City removed');
 						}
 					});
@@ -118,7 +118,7 @@ export function toggleCity(city: TCity, standalone = false) {
 						if (!res.ok) {
 							alert('Failed to add city');
 						} else {
-							invalidate('weather:count');
+							invalidate('app:load');
 							alert('City added');
 						}
 					});

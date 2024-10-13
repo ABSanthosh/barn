@@ -7,6 +7,7 @@ import { makeUserPremium, updateUserName, updateUserSetting } from '$db/User.db'
 import { getAllUserCity } from '$db/City.db';
 import { getWeatherCardData } from '$utils/weather';
 import type { WeatherResponse } from '$types/Weather.type';
+import { getAllUserBookmark } from '$db/Bookmark.db';
 
 function fixRelativeLinks(topics: GithubTopic[]) {
 	return topics.map((topic) => {
@@ -18,7 +19,7 @@ function fixRelativeLinks(topics: GithubTopic[]) {
 }
 
 export const load: PageServerLoad = async ({ locals, depends }) => {
-	depends('weather:count');
+	depends('app:load');
 
 	const allUserTopics = await getUniqueUserTopics(locals.user?.id!);
 	const allUserCities = await getAllUserCity(locals.user?.id!);
@@ -48,7 +49,8 @@ export const load: PageServerLoad = async ({ locals, depends }) => {
 		weatherData: (await getWeatherCardData(
 			allUserCities.map((city) => ({ lat: city.lat, lon: city.lon }))
 		)) as WeatherResponse[],
-		userContent: fixRelativeLinks(userContent)
+		userContent: fixRelativeLinks(userContent),
+		userBookmarks: await getAllUserBookmark(locals.user?.id!)
 	};
 };
 

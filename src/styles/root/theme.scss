@@ -19,7 +19,7 @@
 	--modal-bg: light-dark(#ecedca, #1a1a1a);
 	--modal-bg-noBlur: light-dark(#f4f6d5, #1a1a1a);
 	--weather-card-bg: light-dark(#fdffe7, #1a1a1a);
-	
+
 	--separator: light-dark(#c7caa3, #383b11);
 
 	--ytEmbedBlur: light-dark(hsla(64, 65%, 90%, 0.387), hsla(0, 0%, 10%, 0.521));
@@ -42,6 +42,18 @@
 	--blueBg: light-dark(#70b8ff, #1a73e8);
 	--pinkBg: light-dark(#df5e8f, #e81a4e);
 	--blueFg: light-dark(rgb(0, 87, 173), #ffffff);
+
+	--crp-message-color-error: light-dark(#b31410, #942926);
+	--crp-message-border-color-error: light-dark(#b31410, #942926);
+	--crp-message-background-color-error: light-dark(#ffe6e6, #ffe6e6);
+
+	--crp-message-color-info: light-dark(#005197, #ffffff);
+	--crp-message-border-color-info: light-dark(#005197, #005197);
+	--crp-message-background-color-info: light-dark(#e3f0ff, #303849);
+
+	--crp-message-color-convo2024: light-dark(#c3b197, #c3b197);
+	--crp-message-border-color-convo2024: light-dark(#9d7b7b, #9d7b7b);
+	--crp-message-background-color-convo2024: light-dark(#f9efde, #dbceb8);
 
 	// Article
 	--link-foreground: light-dark(#37352f, #f6ff47);
@@ -86,5 +98,3 @@
 		}
 	}
 }
-
-// select * from "Topic" order by random() limit 1;

@@ -1,0 +1,16 @@
+model UserBookmark {
+  id        String @id @default(cuid())
+  userId    String
+
+  articleId String @unique
+  title       String
+  link        String
+  description String @db.String(1000)
+  author      String
+  published   String
+  image       String
+  source      String
+  topic       String
+
+  User User @relation(fields: [userId], references: [id])
+}

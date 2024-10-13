@@ -60,6 +60,11 @@
 		{/if}
 	</div>
 	<div class="WeatherPicker__middle">
+		{#if $OnboardStore.selectedCities.length === 0}
+			<p class="CrispMessage" data-type="info" style="margin: auto;" data-format="box">
+				No cities selected. Add some to get started.
+			</p>
+		{/if}
 		{#each $OnboardStore.selectedCities as city}
 			<div class="WeatherCard">
 				<h3>{city.name}</h3>

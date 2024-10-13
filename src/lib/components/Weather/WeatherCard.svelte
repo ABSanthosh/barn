@@ -38,6 +38,7 @@
 		border-radius: 20px;
 		background-color: var(--weather-card-bg);
 		border: 1px solid var(--secondary);
+		min-width: 0;
 		box-shadow: var(--t-crp-box-shadow);
 		border-radius: 10px;
 		padding: 1rem;
@@ -80,6 +81,9 @@
 		&__bottom {
 			@include make-flex($dir: row, $just: space-between);
 			list-style: none;
+			width: 100%;
+			max-width: 100%;
+			overflow: hidden;
 			li {
 				text-align: center;
 				flex: 1;

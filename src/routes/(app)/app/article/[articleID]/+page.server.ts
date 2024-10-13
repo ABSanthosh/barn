@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
 	} else if (!GitHubTopicList.includes(topic)) {
 		throw redirect(302, '/app');
 	}
-
+	
 	const content = (await fetch(
 		`${GITHUB_PAGES_URL}/${day}/${encodeURIComponent(topic)}/readability/${api}.json`
 	).then((res) => res.json())) as GithubReadability;

@@ -1,33 +1,23 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import getGreeting from '$utils/greet';
-	import { UserStore } from '$lib/Store/UserStore';
-	import type { PageData } from './$types';
-	import type { GithubTopic } from '$types/Topic.type';
-	import YtEmbed from '$components/YtEmbed.svelte';
-	import type { WeatherResponse } from '$types/Weather.type';
-	import WeatherCard from '$components/Weather/WeatherCard.svelte';
-	import { addToast } from '$lib/Store/ToastStore';
-	import type { Bookmark } from '$types/Bookmark.type';
 	import { invalidate } from '$app/navigation';
+	import YtEmbed from '$components/YtEmbed.svelte';
+	import { addToast } from '$lib/Store/ToastStore';
+	import { UserStore } from '$lib/Store/UserStore';
+	import type { Bookmark } from '$types/Bookmark.type';
+	import type { PageData } from './$types';
 
 	export let data: PageData & {
-		weatherData: WeatherResponse[];
-		userBookmarks: Bookmark[];
+		bookmarks: Bookmark[];
 	};
 
-	let greet = {
-		greet: '',
-		funny: ''
+	$: bookmarkIds = data.bookmarks.map((item) => item.articleId);
+
+	const getSource = (source: string) => {
+		// remove https:// and www. from the source
+		// split the source by / and return the first element
+		return source.replace('https://', '').replace('www.', '').split('/')[0];
 	};
-
-	$: bookmarkIds = data.userBookmarks.map((item) => item.articleId);
-
-	onMount(async () => {
-		greet = getGreeting($UserStore?.name!);
-	});
-
-	const dataType = (item: GithubTopic) => {
+	const dataType = (item: Bookmark) => {
 		if (item.image) {
 			if (
 				item.image.includes('.mp3') ||
@@ -51,75 +41,25 @@
 			return 'empty';
 		}
 	};
-
-	$: activeTab = 'All';
-
-	$: content = () => {
-		if (activeTab === 'All') {
-			return data.userContent;
-		} else {
-			// if Articles, return dataType === 'image'
-			// if Podcasts, return dataType === 'audio'
-			// if Videos, return dataType === 'video'
-			return data.userContent.filter((item) => {
-				if (activeTab === 'Articles') {
-					return dataType(item) === 'image';
-				} else if (activeTab === 'Podcasts') {
-					return dataType(item) === 'audio';
-				} else if (activeTab === 'Videos') {
-					return dataType(item) === 'video';
-				} else if (activeTab === 'Youtube') {
-					return dataType(item) === 'youtube';
-				}
-			});
-		}
-	};
-
-	const getSource = (source: string) => {
-		// remove https:// and www. from the source
-		// split the source by / and return the first element
-		return source.replace('https://', '').replace('www.', '').split('/')[0];
-	};
 </script>
 
 <main class="Feed">
-	<div class="Feed__greet">
-		<h1>{greet.greet}</h1>
-		<p>{greet.funny}</p>
-	</div>
-	<div class="Feed__weather">
-		{#each data.weatherData as item}
-			<WeatherCard weatherData={item} />
-		{/each}
-	</div>
-	<div class="Tabs">
-		{#each ['All', 'Articles', 'Podcasts', 'Videos', 'Youtube'] as child, index}
-			<button
-				class="CrispButton"
-				data-active={child === activeTab}
-				on:click={() => {
-					activeTab = child;
-				}}
-			>
-				{child}
-			</button>
-		{/each}
-	</div>
+	<h1>Bookmarks</h1>
+	{#if data.bookmarks.length === 0}
+		<p class="CrispMessage" data-type="info" style="margin: auto;" data-format="box">
+			No bookmarks found
+		</p>
+	{/if}
 	<ul class="Feed__content">
-		{#if content().length === 0}
-			<p class="CrispMessage" data-type="info" style="margin: auto;" data-format="box">
-				No content found
-			</p>
-		{/if}
-		{#each content() as item}
+		{#each data.bookmarks as item}
 			{@const itemType = dataType(item)}
-			{@const isBookmarked = bookmarkIds.includes(item.id)}
+			{@const isBookmarked = bookmarkIds.includes(item.articleId)}
 
 			<li class="FeedItem">
 				<div class="FeedItem__top" data-type={itemType}>
 					<a
 						class="FeedItem__box"
-						href={`/app/article/${encodeURIComponent(item.id)}?day=today&topic=${item.topic}`}
+						href={`/app/article/${encodeURIComponent(item.articleId)}?day=today&topic=${item.topic}`}
 					>
 						<span>
 							{getSource(item.link)}
@@ -160,7 +100,7 @@
 									body: JSON.stringify({
 										userId: $UserStore?.id,
 										bookmark: {
-											articleId: item.id,
+											articleId: item.articleId,
 											title: item.title,
 											link: item.link,
 											image: item.image,
@@ -173,7 +113,7 @@
 									})
 								}).then((res) => {
 									if (res.ok) {
-										invalidate('app:load');
+										invalidate('bookmarks:count');
 										addToast({
 											message: 'Article bookmarked',
 											type: 'success',
@@ -197,7 +137,7 @@
 									},
 									body: JSON.stringify({
 										userId: $UserStore?.id,
-										articleId: item.id
+										articleId: item.articleId
 									})
 								}).then((res) => {
 									if (res.ok) {
@@ -207,7 +147,7 @@
 											dir: 'bottom',
 											timeout: 1000
 										});
-										invalidate('app:load');
+										invalidate('bookmarks:count');
 									} else {
 										addToast({
 											message: 'Failed to remove article from bookmarks',
@@ -242,71 +182,12 @@
 		padding: 20px;
 		@include make-flex($align: flex-start);
 
-		.Tabs {
-			@include box(100%, auto);
-			@include make-flex($dir: row);
-
-			.CrispButton {
-				--crp-button-height: 40px;
-				--crp-button-width: 100px;
-				--crp-button-border-radius: 0;
-
-				&:first-child {
-					border-top-left-radius: 7px;
-					border-bottom-left-radius: 7px;
-				}
-
-				&:last-child {
-					border-top-right-radius: 7px;
-					border-bottom-right-radius: 7px;
-				}
-			}
-
-			@include respondAt(435px) {
-				display: grid;
-				grid-template-columns: repeat(2, 1fr);
-				.CrispButton {
-					--crp-button-width: 100%;
-
-					&:first-child {
-						border-radius: 0;
-						border-top-left-radius: 7px;
-					}
-
-					&:nth-child(2) {
-						border-top-right-radius: 7px;
-					}
-
-					&:last-child {
-						border-radius: 0;
-						border-bottom-left-radius: 7px;
-						border-bottom-right-radius: 7px;
-						grid-column: 1 / -1;
-					}
-				}
-			}
-		}
-		&__weather {
-			gap: 20px;
+		h1 {
+			margin: 0;
+			font-size: 35px;
 			width: 100%;
-			display: grid;
-			grid-template-columns: repeat(2, minmax(200px, 1fr));
 
-			@include respondAt(870px) {
-				grid-template-columns: 1fr;
-			}
-		}
-		&__greet {
-			margin-bottom: 60px;
-			@include make-flex($align: flex-start);
-
-			h1 {
-				font-size: 35px;
-			}
-			p {
-				font-size: 18px;
-				color: var(--subText);
-			}
+			border-bottom: 1.5px solid var(--separator);
 		}
 
 		&__content {
@@ -315,11 +196,6 @@
 			@include make-flex();
 			@include box(100%, auto);
 
-			// li {
-			// 	@include make-flex();
-			// 	@include box(100%, auto);
-			// }
-
 			hr {
 				border: none;
 				border-bottom: 1px solid var(--border);
@@ -327,6 +203,7 @@
 			}
 		}
 	}
+
 	.FeedItem {
 		gap: 10px;
 		padding: 30px 0 15px 0;

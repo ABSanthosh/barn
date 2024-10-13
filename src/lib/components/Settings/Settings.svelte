@@ -10,7 +10,7 @@
 	import WeatherSettings from './WeatherSettings.svelte';
 
 	$: sideBarOpen = false;
-	$: selectedSetting = 'Weather';
+	$: selectedSetting = 'General';
 
 	let hamburger: HTMLInputElement;
 	export const allTopics: categorizedTopics = {};
