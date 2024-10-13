@@ -1,6 +1,5 @@
-import { type User } from '@prisma/client';
 import db from './index';
-import { type UserProfile, type UserSettings } from '../types/User.type';
+import { type User, type UserProfile, type UserSettings } from '../types/User.type';
 
 // upsert user
 export async function upsertUser(user: User, settings: UserSettings) {
